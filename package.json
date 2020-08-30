@@ -1,7 +1,7 @@
 {
-  "name": "gatsby_boilerplate",
+  "name": "fullstack_app",
   "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
+  "description": "A simplified bare-bones starter for Gatsby fullstack app with an expressjs server",
   "version": "0.1.0",
   "license": "0BSD",
   "scripts": {
@@ -25,9 +25,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanacone/gatsby_boilerplate"
+    "url": "https://github.com/guanacone/fullstack_app"
   },
   "bugs": {
-    "url": "https://github.com/guanacone/gatsby_boilerplate/issues"
+    "url": "https://github.com/guanacone/fullstack_app/issues"
   }
 }
