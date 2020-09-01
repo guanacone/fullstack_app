@@ -1,16 +1,15 @@
-FROM node:12
+FROM node:12.16.2
 
 # Create app directory
 WORKDIR /usr/src/app
 
+RUN npm install -g gatsby-cli && gatsby telemetry --disable
+
 # Install app dependencies
-COPY package.json ./
+COPY package.json .
 
 RUN npm install --production
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
 COPY . .
 
 # bundle app
