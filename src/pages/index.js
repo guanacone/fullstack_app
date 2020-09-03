@@ -2,7 +2,7 @@ import React from 'react';
 import useAPI from '../hooks/useAPI';
 
 const Home = () => {
-  const data = useAPI({ url: 'http://localhost:1337/api' });
+  const data = useAPI({ url: 'https://gentle-ravine-79398.herokuapp.com/api' });
   return (
     data && (
       <div>
