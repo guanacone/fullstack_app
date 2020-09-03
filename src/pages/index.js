@@ -1,8 +1,9 @@
 import React from 'react';
 import useAPI from '../hooks/useAPI';
+import url from '../../url';
 
 const Home = () => {
-  const data = useAPI({ url: 'https://gentle-ravine-79398.herokuapp.com/api' });
+  const data = useAPI(url);
   return (
     data && (
       <div>
