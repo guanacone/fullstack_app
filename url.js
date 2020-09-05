@@ -1,4 +1,4 @@
 const { NODE_ENV } = process.env;
-const url = NODE_ENV === 'production' ? { url: 'https://gentle-ravine-79398.herokuapp.com/api' } : { url: 'http://localhost:1337/api' };
+const url = NODE_ENV === 'production' ? 'https://gentle-ravine-79398.herokuapp.com/api' : 'http://localhost:1337/api/user';
 
 export default url;

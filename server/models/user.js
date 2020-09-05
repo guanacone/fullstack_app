@@ -4,15 +4,15 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema(
   {
-    first_name: { type: String, required: true, maxlength: 100 },
-    family_name: { type: String, required: true, maxlength: 100 },
+    firstName: { type: String, required: true, maxlength: 100 },
+    familyName: { type: String, required: true, maxlength: 100 },
   },
 );
 
-// Virtual for author's full name
+// Virtual for user's URL
 UserSchema
-  .virtual('name')
-  .get(() => (`${this.first_name}, ${this.last_name}`));
+  .virtual('url')
+  // eslint-disable-next-line no-underscore-dangle
+  .get(() => `/user/${this._id}`);
 
-// Export model
 module.exports = mongoose.model('User', UserSchema);

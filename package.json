@@ -20,7 +20,6 @@
     "bootstrap": "4.5.2",
     "cors": "2.8.5",
     "express": "4.17.1",
-    "faker": "5.1.0",
     "gatsby": "2.24.52",
     "gatsby-plugin-nodejs": "0.6.4",
     "mongoose": "5.10.3",
