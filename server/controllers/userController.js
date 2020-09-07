@@ -1,17 +1,13 @@
 const User = require('../models/user');
 
 // return list of all Authors.
-exports.userList = (req, res) => {
-  User.find()
-    .exec((err, users) => {
-      res.json({ users });
-    });
+exports.userList = async (req, res, next) => {
+  const users = await User.find({}).exec();
+  res.json({ users });
 };
 
 // return details for a specific user.
-exports.userDetail = (req, res) => {
-  User.findById(req.params.id)
-    .exec((err, userinstance) => {
-      res.json({ userinstance });
-    });
+exports.userDetail = async (req, res) => {
+  const userinstance = await User.findById(req.params.id).exec();
+  res.json({ userinstance });
 };

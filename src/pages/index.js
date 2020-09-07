@@ -4,7 +4,7 @@ import useAPI from '../hooks/useAPI';
 import url from '../../url';
 
 const Home = () => {
-  const data = useAPI({ url });
+  const data = useAPI({ url: `${url}/api/user` });
   return (
     data && (
     <div>
@@ -12,11 +12,12 @@ const Home = () => {
       <ul>
         {Object.values(data.users)
           .map((user) => (
-            <Link to="/user" state={{ userID: user._id }}>
-              <li key={user._id}>{user.first_name} {user.family_name}</li>
+            <Link key={user._id}to="/user" state={{ userID: user._id }}>
+              <li>{user.firstName} {user.familyName}</li>
             </Link>
           ))}
       </ul>
+      <Link to="/newUser">New User</Link>
     </div>
     )
   );

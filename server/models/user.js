@@ -9,10 +9,4 @@ const UserSchema = new Schema(
   },
 );
 
-// Virtual for user's URL
-UserSchema
-  .virtual('url')
-  // eslint-disable-next-line no-underscore-dangle
-  .get(() => `/user/${this._id}`);
-
 module.exports = mongoose.model('User', UserSchema);
