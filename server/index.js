@@ -12,11 +12,11 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(cors());
+app.use(express.json());
 
 gatsby.prepare({ app }, () => {
   app.get('/api/user', userController.userList);
   app.get('/api/user/:id', userController.userDetail);
-  app.post('/api/user', userController.createUser);
 });
 
 const port = process.env.PORT || 1337;
