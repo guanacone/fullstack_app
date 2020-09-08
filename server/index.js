@@ -12,6 +12,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(cors());
+app.use(express.json());
 
 gatsby.prepare({ app }, () => {
   app.get('/api/user', userController.userList);
