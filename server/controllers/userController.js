@@ -11,3 +11,16 @@ exports.userDetail = async (req, res) => {
   const userinstance = await User.findById(req.params.id).exec();
   res.json({ userinstance });
 };
+
+// create new user
+exports.createUser = (req, res) => {
+  const user = new User({
+    firstName: req.body.firstName,
+    familyName: req.body.familyName,
+  });
+
+  user.save((err) => {
+    if (err) return console.log(err);
+    return res.json(user);
+  });
+};
