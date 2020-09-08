@@ -1,6 +1,6 @@
 import React from 'react';
 import useAPI from '../hooks/useAPI';
-import url from '../../url';
+import url from '../url';
 
 const User = ({ location }) => {
   const data = useAPI({ url: `${url}/api/user/${location.state.userID}` });
