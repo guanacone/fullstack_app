@@ -16,6 +16,7 @@ app.use(cors());
 gatsby.prepare({ app }, () => {
   app.get('/api/user', userController.userList);
   app.get('/api/user/:id', userController.userDetail);
+  app.post('/api/user', userController.createUser);
 });
 
 const port = process.env.PORT || 1337;
