@@ -4,4 +4,7 @@ module.exports = {
       '@edwmurph/eslint-config/gatsby',
       '@edwmurph/eslint-config/react',
     ],
+    rules: {        
+      "no-underscore-dangle": 'off'
+   },
   };
