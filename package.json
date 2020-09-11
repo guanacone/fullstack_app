@@ -20,7 +20,7 @@
     "cors": "2.8.5",
     "express": "4.17.1",
     "gatsby": "2.24.52",
-    "gatsby-plugin-nodejs": "0.6.4",
+    "gatsby-plugin-nodejs": "0.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
