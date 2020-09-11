@@ -1,7 +1,6 @@
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const cors = require('cors');
-const userController = require('./controllers/userController');
 
 const app = express();
 
