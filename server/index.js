@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 gatsby.prepare({ app }, () => {
-  app.get('/', (req, res) => {
+  app.get('/api', (req, res) => {
     res.json({ msg: 'Fetching data from API...' });
   });
   app.get('/api/user', userController.indexUser);

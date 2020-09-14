@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import useAPI from '../hooks/useAPI';
 import url from '../url';
 
@@ -8,6 +9,7 @@ const Home = () => {
     data && (
       <div>
         <h1>Message: {data.msg}</h1>
+        <Link to={'/users'}>User List</Link>
       </div>
     )
   );
