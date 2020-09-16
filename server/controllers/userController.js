@@ -4,13 +4,13 @@ const User = require('../models/user');
 // no error handling as the frontend has no options (maybe add a catch for error 500?)
 exports.indexUser = async (req, res) => {
   const users = await User.find({}).exec();
-  res.json({ users });
+  return res.json({ users });
 };
 
 // create new user
 exports.createUser = async (req, res) => {
   if (!req.body.firstName || !req.body.familyName) {
-    res
+    return res
       .status(400)
       .json({ message: 'Missing first name or family name' });
   }
@@ -20,11 +20,11 @@ exports.createUser = async (req, res) => {
       familyName: req.body.familyName,
     })
       .save();
-    res
+    return res
       .status(201)
       .json(newUser);
   } catch(err) {
-    res
+    return res
       .status(500)
       .json({ message: 'An error occurred trying to process your request' });
   }
@@ -35,13 +35,13 @@ exports.showUser = async (req, res) => {
   try {
     const userinstance = await User.findById(req.params.id);
     if (userinstance === null) {
-      res
+      return res
         .status(404)
         .json({ message: 'User not found' });
     }
-    res.json({ userinstance });
+    return res.json(userinstance);
   } catch(err) {
-    res
+    return res
       .status(500)
       .json({ message: 'An error occurred trying to process your request' });
   }
@@ -50,25 +50,23 @@ exports.showUser = async (req, res) => {
 // update user
 // no 404 error as frontend allows update only on existing users
 exports.updateUser = async (req, res) => {
+  if (!req.body.firstName || !req.body.familyName) {
+    return res
+      .status(400)
+      .json({ message: 'Missing first name or family name' });
+  }
   try {
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.params.id,
       {
         firstName: req.body.firstName,
         familyName: req.body.familyName,
       },
       { new: true },
-      (err, docs) => {
-        if (!req.body.firstName || !req.body.familyName) {
-          res
-            .status(400)
-            .json({ message: 'Missing first name or family name' });
-        } else {
-          res.json(docs);
-        }
-      });
+    );
+    return res.json(user);
   } catch(err) {
-    res
+    return res
       .status(500)
       .json({ message: 'An error occurred trying to process your request' });
   }
@@ -77,6 +75,6 @@ exports.updateUser = async (req, res) => {
 // destroy user
 // no errors as frontend allows only to destroy existing users
 exports.destroyUser = async (req, res) => {
-  await User.findByIdAndRemove(req.params.id);
-  res.send('success');
+  const deletedUser = await User.findByIdAndRemove(req.params.id);
+  return res.json(deletedUser);
 };
