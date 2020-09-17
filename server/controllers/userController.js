@@ -4,7 +4,7 @@ const User = require('../models/user');
 // no error handling as the frontend has no options (maybe add a catch for error 500?)
 exports.indexUser = async (req, res) => {
   const users = await User.find({}).exec();
-  return res.json({ users });
+  return res.json(users);
 };
 
 // create new user
