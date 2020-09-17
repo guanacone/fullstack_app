@@ -75,6 +75,12 @@ exports.updateUser = async (req, res) => {
 // destroy user
 // no errors as frontend allows only to destroy existing users
 exports.destroyUser = async (req, res) => {
-  const deletedUser = await User.findByIdAndRemove(req.params.id);
-  return res.json(deletedUser);
+  try {
+    const deletedUser = await User.findByIdAndRemove(req.params.id);
+    return res.json(deletedUser);
+  } catch(err) {
+    return res
+      .status(500)
+      .json({ message: 'An error occurred trying to process your request' });
+  }
 };
