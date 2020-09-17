@@ -3,7 +3,7 @@ import useAPI from '../hooks/useAPI';
 import url from '../url';
 
 const Home = () => {
-  const data = useAPI(url);
+  const data = useAPI({ url });
   return (
     data && (
       <div>
