@@ -7,8 +7,16 @@ exports.createPages = async ({ actions: { createPage } }) => {
   const response = await axios.get(`${url}/api/user`);
   const users = response.data;
   createPage({
-    path: '/users',
+    path: '/user',
     component: require.resolve('./src/templates/all-users.js'),
     context: { users },
+  });
+
+  users.forEach((user) => {
+    createPage({
+      path: `/user/${user._id}`,
+      component: require.resolve('./src/templates/userProfile.js'),
+      context: { user },
+    });
   });
 };

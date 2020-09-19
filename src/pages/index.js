@@ -9,7 +9,7 @@ const Home = () => {
     data && (
       <div>
         <h1>Message: {data.msg}</h1>
-        <Link to={'/users'}>User List</Link>
+        <Link to={'/user'}>User List</Link>
       </div>
     )
   );
