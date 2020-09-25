@@ -13,7 +13,7 @@ const userList = ({ pageContext: { users } }) => (
             listStyle: 'none',
           }}
         >
-          <Link to={`/user/${user._id}`}>
+          <Link to={`/app/user/${user._id}`}>
             <p>{user.familyName}, {user.firstName}</p>
           </Link>
         </li>
