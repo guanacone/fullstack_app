@@ -11,12 +11,4 @@ exports.createPages = async ({ actions: { createPage } }) => {
     component: require.resolve('./src/templates/all-users.js'),
     context: { users },
   });
-
-  users.forEach((user) => {
-    createPage({
-      path: `/user/${user._id}`,
-      component: require.resolve('./src/templates/userProfile.js'),
-      context: { user },
-    });
-  });
 };
