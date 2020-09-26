@@ -1,10 +1,12 @@
 import React from 'react';
 import { Router } from '@reach/router';
+import UserIndex from '../components/UserIndex';
 import UserProfile from '../components/UserProfile';
 
 const User = () => (
   <Router>
-    <UserProfile path='app/user/:id' />
+    <UserIndex path='/user' />
+    <UserProfile path='/user/:id' />
   </Router>
 );
 

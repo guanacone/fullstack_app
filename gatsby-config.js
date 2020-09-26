@@ -8,9 +8,9 @@ module.exports = {
   /* Your site config here */
   plugins: [
     'gatsby-plugin-nodejs',
-    // {
-    //   resolve: 'gatsby-plugin-create-client-paths',
-    //   options: { prefixes: ['/user/*'] },
-    // },
+    {
+      resolve: 'gatsby-plugin-create-client-paths',
+      options: { prefixes: ['/user/*'] },
+    },
   ],
 };
