@@ -9,6 +9,7 @@ const User = () => (
     <UserIndex path='/user' />
     <UserProfile path='/user/:id' />
     <UserForm path='/user/new' />
+    <UserForm path='/user/:id/edit' />
   </Router>
 );
 
