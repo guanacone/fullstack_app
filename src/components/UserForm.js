@@ -4,15 +4,30 @@ import { navigate } from 'gatsby';
 import useInput from '../hooks/useInput';
 import url from '../url';
 
-const UserForm = () => {
-  const firstName = useInput('');
-  const familyName = useInput('');
+const UserForm = ({ location }) => {
+  let requestMethod;
+  let user = {
+    firstName: '',
+    familyName: '',
+  };
+  let APIurl;
+  if (location.state) {
+    user = {
+      firstName: location.state.user.firstName,
+      familyName: location.state.user.familyName,
+    };
+    requestMethod = 'put';
+    APIurl = `${url}/api/user/${location.state.user._id}`;
+  }
 
-  const submitToApi = async (method) => {
+  const firstName = useInput(user.firstName);
+  const familyName = useInput(user.familyName);
+
+  const submitToApi = async (method = 'post', address = `${url}/api/user`) => {
     try {
       const response = await axios({
         method,
-        url: `${url}/api/user`,
+        url: address,
         data: {
           firstName: `${firstName.value}`,
           familyName: `${familyName.value}`,
@@ -26,10 +41,11 @@ const UserForm = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    submitToApi('post');
+    submitToApi(requestMethod, APIurl);
     firstName.reset();
     familyName.reset();
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
