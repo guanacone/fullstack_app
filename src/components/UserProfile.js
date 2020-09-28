@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'gatsby';
 import useAPI from '../hooks/useAPI';
 import url from '../url';
 
