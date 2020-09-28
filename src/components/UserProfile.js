@@ -11,12 +11,6 @@ const User = ({ id }) => {
       <h3>User Profile: {data._id}</h3>
       <p>First Name: {data.firstName}</p>
       <p>Family Name: {data.familyName}</p>
-      <Link
-        to={`/user/${data._id}/edit`}
-        state={{ id: data._id }}
-      >
-        Edit User
-      </Link>
     </div>
     )
   );
