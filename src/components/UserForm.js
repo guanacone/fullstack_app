@@ -5,34 +5,40 @@ import useInput from '../hooks/useInput';
 import url from '../url';
 
 const UserForm = () => {
-  const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
-  const { value: familyName, bind: bindFamilyName, reset: resetFamilyName } = useInput('');
+  const firstName = useInput('');
+  const familyName = useInput('');
+
+  const submitToApi = async (method) => {
+    try {
+      const response = await axios({
+        method,
+        url: `${url}/api/user`,
+        data: {
+          firstName: `${firstName.value}`,
+          familyName: `${familyName.value}`,
+        } });
+      const id = response.data._id;
+      navigate(`/user/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    axios.post(`${url}/api/user`, {
-      firstName: `${firstName}`,
-      familyName: `${familyName}`,
-    })
-      .then((response) => {
-        const id = response.data._id;
-        navigate(`/user/${id}`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    resetFirstName();
-    resetFamilyName();
+    submitToApi('post');
+    firstName.reset();
+    familyName.reset();
   };
   return (
     <form onSubmit={handleSubmit}>
       <label>
         First Name:
-        <input type="text" {...bindFirstName} />
+        <input type="text" {...firstName.bind} />
       </label>
       <label>
         Last Name:
-        <input type="text" {...bindFamilyName} />
+        <input type="text" {...familyName.bind} />
       </label>
       <input type="submit" value="Submit" />
     </form>
@@ -40,69 +46,3 @@ const UserForm = () => {
 };
 
 export default UserForm;
-
-// export default class IndexPage extends React.Component {
-//   state = {
-//     firstName: '',
-//     familyName: '',
-//   }
-
-//   handleInputChange = (event) => {
-//     const { target } = event;
-//     const { value } = target;
-//     const { name } = target;
-
-//     this.setState({
-//       [name]: value,
-//     });
-//   }
-
-//   handleSubmit = (event) => {
-//     event.preventDefault();
-//     axios.post(`${url}/api/user`, {
-//       firstName: `${this.state.firstName}`,
-//       familyName: `${this.state.familyName}`,
-//     })
-//       .then((response) => {
-//         const id = response.data._id;
-//         navigate(`/user/${id}`);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-
-//   render() {
-//     console.log(`logging: ${this.state.firstName}`);
-//     return (
-//       <div>
-//         <form
-//       name="contact"
-//       method="post"
-//       action="/thanks/"
-//       onSubmit={this.handleSubmit}>
-//           <input type="hidden" name="form-name" value="contact" />
-//           <label>
-//             First name
-//             <input
-//             type="text"
-//             name="firstName"
-//             value={this.state.firstName}
-//             onChange={this.handleInputChange}
-//           />
-//           </label>
-//           <label>
-//             Family name
-//             <input
-//             type="text"
-//             name="familyName"
-//             value={this.state.familyName}
-//             onChange={this.handleInputChange}
-//           />
-//           </label>
-//           <button type="submit">Submit</button>
-//         </form>
-//       </div>
-//     );
-//   }
-// }
