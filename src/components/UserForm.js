@@ -5,29 +5,24 @@ import useInput from '../hooks/useInput';
 import url from '../url';
 
 const UserForm = ({ location }) => {
-  let requestMethod;
-  let user = {
-    firstName: '',
-    familyName: '',
-  };
-  let APIurl;
+  let firstName = useInput('');
+  let familyName = useInput('');
+  let requestMethod = 'post';
+  let APIurl = `${url}/api/user`;
+
   if (location.state) {
-    user = {
-      firstName: location.state.user.firstName,
-      familyName: location.state.user.familyName,
-    };
+    const { user } = location.state;
+    firstName = useInput(user.firstName);
+    familyName = useInput(user.familyName);
     requestMethod = 'put';
     APIurl = `${url}/api/user/${location.state.user._id}`;
   }
 
-  const firstName = useInput(user.firstName);
-  const familyName = useInput(user.familyName);
-
-  const submitToApi = async (method = 'post', address = `${url}/api/user`) => {
+  const submitToApi = async (method, API) => {
     try {
       const response = await axios({
         method,
-        url: address,
+        url: API,
         data: {
           firstName: `${firstName.value}`,
           familyName: `${familyName.value}`,
