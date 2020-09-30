@@ -1,8 +1,4 @@
 import React from 'react';
-// import axios from 'axios';
-// import { navigate } from 'gatsby';
-// import useInput from '../hooks/useInput';
-// import url from '../url';
 
 const UserForm = ({ firstName, familyName, handleSubmit }) => (
   <form onSubmit={handleSubmit}>
