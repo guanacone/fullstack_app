@@ -9,8 +9,8 @@ const submitToApi = async (firstName, familyName) => {
   try {
     const response = await axios.post(
       `${url}/api/user`, {
-        firstName: `${firstName.value}`,
-        familyName: `${familyName.value}`,
+        firstName: firstName.value,
+        familyName: familyName.value,
       },
     );
     const id = response.data._id;
@@ -31,9 +31,7 @@ const UserNew = () => {
 
   return (
     <UserForm
-    handleSubmit = {(evt) => {
-      handleSubmit(evt, firstName, familyName);
-    }}
+    handleSubmit = {(evt) => handleSubmit(evt, firstName, familyName)}
     firstName={firstName}
     familyName={familyName} />
   );
