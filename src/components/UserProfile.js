@@ -13,7 +13,6 @@ const User = ({ id }) => {
       <p>Family Name: {data.familyName}</p>
       <Link
         to={`/user/${data._id}/edit`}
-        state={{ user: data }}
       >
         Edit
       </Link>
