@@ -16,6 +16,11 @@ const User = ({ id }) => {
       >
         Edit
       </Link>
+      <Link
+        to={`/user/${data._id}/delete`}
+      >
+        Delete
+      </Link>
     </div>
     )
   );
