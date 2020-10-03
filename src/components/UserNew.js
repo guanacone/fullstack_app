@@ -8,7 +8,7 @@ import url from '../url';
 const submitToApi = async (firstName, familyName) => {
   try {
     const response = await axios.post(
-      `${url}/api/user`, {
+      `${url}/user`, {
         firstName: firstName.value,
         familyName: familyName.value,
       },

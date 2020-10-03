@@ -4,7 +4,7 @@ import useAPI from '../hooks/useAPI';
 import url from '../url';
 
 const UserIndex = () => {
-  const data = useAPI({ url: `${url}/api/user` });
+  const data = useAPI({ url: `${url}/user` });
   return (
     data && (
       <div>

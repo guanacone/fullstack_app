@@ -28,7 +28,7 @@ const handleSubmit = (evt, endpoint, value1, value2) => {
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
-  const data = useAPI({ url: `${url}/api/user/${userID}` });
+  const data = useAPI({ url: `${url}/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
   useEffect(() => {
@@ -42,7 +42,7 @@ const UserNew = ({ location }) => {
   return (
     data && (
       <UserForm
-    handleSubmit = {(evt) => handleSubmit(evt, `${url}/api/user/${userID}`, firstName, familyName)}
+    handleSubmit = {(evt) => handleSubmit(evt, `${url}/user/${userID}`, firstName, familyName)}
     firstName={firstName}
     familyName={familyName} />
     )

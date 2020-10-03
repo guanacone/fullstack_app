@@ -41,7 +41,7 @@ const deleteUser = (endpoint) => {
 };
 
 const User = ({ id }) => {
-  const data = useAPI({ url: `${url}/api/user/${id}` });
+  const data = useAPI({ url: `${url}/user/${id}` });
   return (
     data && (
     <div>
