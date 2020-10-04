@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useAPI = ({ url, defaultData = null }) => {
-  const [data, setdata] = useState(defaultData);
+const useAPI = ({ method, url, data }) => {
+  const [content, setcontent] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get(url);
-      setdata(result.data);
+      const result = await axios({
+        method,
+        url,
+        data,
+      });
+      setcontent(result.data);
     })();
   }, []);
 
-  return data;
+  return content;
 };
 
 export default useAPI;
