@@ -4,13 +4,13 @@ const UserForm = ({ firstName, familyName, handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <label>
       First Name:
-      <input type="text" {...firstName.bind}/>
+      <input type='text' {...firstName.bind}/>
     </label>
     <label>
       Last Name:
-      <input type="text" {...familyName.bind} />
+      <input type='text' {...familyName.bind} />
     </label>
-    <input type="submit" value="Submit" />
+    <input type='submit' value='Submit' />
   </form>
 );
 

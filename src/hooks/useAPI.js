@@ -9,7 +9,7 @@ const useAPI = ({ url, defaultData = null }) => {
       const result = await axios.get(url);
       setdata(result.data);
     })();
-  }, [url]);
+  }, []);
 
   return data;
 };

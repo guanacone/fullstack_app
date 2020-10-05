@@ -12,5 +12,6 @@ module.exports = {
       resolve: 'gatsby-plugin-create-client-paths',
       options: { prefixes: ['/user/*'] },
     },
+    'gatsby-plugin-styled-components',
   ],
 };
