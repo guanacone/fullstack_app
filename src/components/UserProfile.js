@@ -54,7 +54,7 @@ const User = ({ id }) => {
         Edit
       </Link>
       <DeleteButton
-        type="button"
+        type='button'
         onClick={() => deleteUser(`${url}/api/user/${id}`)}>Delete User</DeleteButton>
 
     </div>
