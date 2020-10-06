@@ -26,7 +26,7 @@ gatsby.prepare({ app }, () => {
   app.use((err, req, res, next) => {
     return res
       .status(500)
-      .json({ error: err.stack });
+      .json({ msg: 'custom error' });
   });
 });
 
