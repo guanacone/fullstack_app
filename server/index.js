@@ -27,7 +27,7 @@ gatsby.prepare({ app }, () => {
   app.use((err, req, res, _next) => {
     return res
       .status(500)
-      .json({ error: 'Internal Server Error' });
+      .json({ message: 'Internal Server Error' });
   });
 });
 
