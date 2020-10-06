@@ -1,14 +1,17 @@
 const User = require('../models/user');
 
 // index of all users
-// no error handling as the frontend has no options (maybe add a catch for error 500?)
-exports.indexUser = async (req, res) => {
-  const users = await User.find({}).exec();
-  return res.json(users);
+exports.indexUser = async (req, res, next) => {
+  try {
+    const users = await User.find({}).exec();
+    return res.json(users);
+  } catch(err) {
+    next(err);
+  }
 };
 
 // create new user
-exports.createUser = async (req, res) => {
+exports.createUser = async (req, res, next) => {
   if (!req.body.firstName || !req.body.familyName) {
     return res
       .status(400)
@@ -24,14 +27,12 @@ exports.createUser = async (req, res) => {
       .status(201)
       .json(newUser);
   } catch(err) {
-    return res
-      .status(500)
-      .json({ message: 'An error occurred trying to process your request' });
+    next(err);
   }
 };
 
 // show user
-exports.showUser = async (req, res) => {
+exports.showUser = async (req, res, next) => {
   try {
     const userinstance = await User.findById(req.params.id);
     if (userinstance === null) {
@@ -41,22 +42,19 @@ exports.showUser = async (req, res) => {
     }
     return res.json(userinstance);
   } catch(err) {
-    return res
-      .status(500)
-      .json({ message: 'An error occurred trying to process your request' });
+    next(err);
   }
 };
 
 // update user
-// no 404 error as frontend allows update only on existing users
-exports.updateUser = async (req, res) => {
+exports.updateUser = async (req, res, next) => {
   if (!req.body.firstName || !req.body.familyName) {
     return res
       .status(400)
       .json({ message: 'Missing first name or family name' });
   }
   try {
-    const user = await User.findByIdAndUpdate(
+    const userinstance = await User.findByIdAndUpdate(
       req.params.id,
       {
         firstName: req.body.firstName,
@@ -64,23 +62,28 @@ exports.updateUser = async (req, res) => {
       },
       { new: true },
     );
-    return res.json(user);
+    if (userinstance === null) {
+      return res
+        .status(404)
+        .json({ message: 'User not found' });
+    }
+    return res.json(userinstance);
   } catch(err) {
-    return res
-      .status(500)
-      .json({ message: 'An error occurred trying to process your request' });
+    next(err);
   }
 };
 
 // destroy user
-// no errors as frontend allows only to destroy existing users
-exports.destroyUser = async (req, res) => {
+exports.destroyUser = async (req, res, next) => {
   try {
     const deletedUser = await User.findByIdAndRemove(req.params.id);
+    if (deletedUser === null) {
+      return res
+        .status(404)
+        .json({ message: 'User not found' });
+    }
     return res.json(deletedUser);
   } catch(err) {
-    return res
-      .status(500)
-      .json({ message: 'An error occurred trying to process your request' });
+    next(err);
   }
 };
