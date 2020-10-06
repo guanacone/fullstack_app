@@ -23,10 +23,11 @@ gatsby.prepare({ app }, () => {
   app.get('/api/user/:id', userController.showUser);
   app.put('/api/user/:id', userController.updateUser);
   app.delete('/api/user/:id', userController.destroyUser);
-  app.use((err, req, res, next) => {
+  // eslint-disable-next-line no-unused-vars
+  app.use((err, req, res, _next) => {
     return res
       .status(500)
-      .json({ msg: 'custom error' });
+      .json({ error: 'Internal Server Error' });
   });
 });
 
