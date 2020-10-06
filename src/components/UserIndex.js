@@ -6,18 +6,23 @@ import url from '../url';
 const UserIndex = () => {
   const data = useAPI({ url: `${url}/user` });
   return (
-    data && (
+    data.content && (
       <div>
         <h1>User Index</h1>
-        <ul>
-          {data.map((user) => (
-            <li key={user._id}>
-              <Link to={`/user/${user._id}`}>
-                {user.familyName}, {user.firstName}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        { data.content.isAxiosError ? (
+          <div>{data.content.message}</div>
+        ) : (
+          <ul>
+            {data.content.map((user) => (
+              <li key={user._id}>
+                <Link to={`/user/${user._id}`}>
+                  {user.familyName}, {user.firstName}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )
+        }
       </div>
     )
   );
