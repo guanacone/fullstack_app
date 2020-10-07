@@ -41,23 +41,39 @@ const deleteUser = (endpoint) => {
 };
 
 const User = ({ id }) => {
-  const data = useAPI({ url: `${url}/user/${id}` });
+  const { data, error } = useAPI({ url: `${url}/user/${id}` });
   return (
-    data && (
-    <div>
-      <h3>User Profile: {data._id}</h3>
-      <p>First Name: {data.firstName}</p>
-      <p>Family Name: {data.familyName}</p>
-      <Link
-        to={`/user/${data._id}/edit`}
-      >
-        Edit
-      </Link>
-      <DeleteButton
-        type='button'
-        onClick={() => deleteUser(`${url}/api/user/${id}`)}>Delete User</DeleteButton>
-
-    </div>
+    (data || error) && (
+      <div>
+        <h1>User Profile</h1>
+        { error ? (
+          <>
+            <p>{error.message}</p>
+            <Link
+            to={'/user'}
+          >
+              User Index
+            </Link>
+          </>
+        ) : (
+          <>
+            <p>User ID: {data._id}</p>
+            <p>First Name: {data.firstName}</p>
+            <p>Family Name: {data.familyName}</p>
+            <Link
+              to={`/user/${data._id}/edit`}
+            >
+              Edit
+            </Link>
+            <DeleteButton
+              type='button'
+              onClick={() => deleteUser(`${url}/api/user/${id}`)}
+            >
+              Delete User
+            </DeleteButton>
+          </>
+        )}
+      </div>
     )
   );
 };

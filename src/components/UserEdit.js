@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { navigate } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useAPI from '../hooks/useAPI';
@@ -28,7 +28,7 @@ const handleSubmit = (evt, endpoint, value1, value2) => {
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
-  const data = useAPI({ url: `${url}/user/${userID}` });
+  const { data, error } = useAPI({ url: `${url}/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
   useEffect(() => {
@@ -40,11 +40,25 @@ const UserNew = ({ location }) => {
   }, [data]);
 
   return (
-    data && (
-      <UserForm
+    (data || error) && (
+      <div>
+        <h1>Edit User</h1>
+        { error ? (
+          <>
+            <p>{error.message}</p>
+            <Link
+            to={'/user'}
+          >
+              User Index
+            </Link>
+          </>
+        ) : (
+          <UserForm
     handleSubmit = {(evt) => handleSubmit(evt, `${url}/user/${userID}`, firstName, familyName)}
     firstName={firstName}
     familyName={familyName} />
+        )}
+      </div>
     )
   );
 };
