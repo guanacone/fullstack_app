@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
-import useAPI from '../hooks/useAPI';
+import useFetchAPI from '../hooks/useFetchAPI';
 import url from '../utils/url';
 
 const DeleteButton = styled.button`
@@ -39,7 +39,7 @@ const deleteUser = (endpoint) => {
 };
 
 const User = ({ id }) => {
-  const { data, error } = useAPI({ url: `${url}/user/${id}` });
+  const { data, error } = useFetchAPI({ url: `${url}/user/${id}` });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (

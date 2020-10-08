@@ -1,28 +1,11 @@
 import React from 'react';
-import axios from 'axios';
-import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
-import url from '../utils/url';
+import submitToAPI from '../utils/submitToAPI';
 
-const submitToApi = async (firstName, familyName) => {
-  try {
-    const response = await axios.post(
-      `${url}/user`, {
-        firstName: firstName.value,
-        familyName: familyName.value,
-      },
-    );
-    const id = response.data._id;
-    navigate(`/user/${id}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const handleSubmit = (evt, value1, value2) => {
+const handleSubmit = (evt, method, endpoint, data) => {
   evt.preventDefault();
-  submitToApi(value1, value2);
+  submitToAPI(method, endpoint, data);
 };
 
 const UserNew = () => {
@@ -31,7 +14,7 @@ const UserNew = () => {
 
   return (
     <UserForm
-    handleSubmit = {(evt) => handleSubmit(evt, firstName, familyName)}
+    handleSubmit = {(evt) => handleSubmit(evt, 'post', 'user', { firstName: firstName.value, familyName: familyName.value })}
     firstName={firstName}
     familyName={familyName} />
   );
