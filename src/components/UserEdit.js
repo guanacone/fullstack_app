@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Link, navigate } from 'gatsby';
+import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useAPI from '../hooks/useAPI';
@@ -38,28 +38,29 @@ const UserNew = ({ location }) => {
     firstName.setValue(data.firstName);
     familyName.setValue(data.familyName);
   }, [data]);
-
-  return (
-    (data || error) && (
-      <div>
-        <h1>Edit User</h1>
-        { error ? (
-          <>
-            <p>{error.message}</p>
-            <Link
-            to={'/user'}
-          >
-              User Index
-            </Link>
-          </>
-        ) : (
-          <UserForm
+  const getContent = (dataContent, errorContent) => {
+    if (errorContent) {
+      return (
+        <p>{errorContent.message}</p>
+      );
+    } if (dataContent) {
+      return (
+        <UserForm
     handleSubmit = {(evt) => handleSubmit(evt, `${url}/user/${userID}`, firstName, familyName)}
     firstName={firstName}
     familyName={familyName} />
-        )}
-      </div>
-    )
+      );
+    }
+    return (
+      <p>loading...</p>
+    );
+  };
+
+  return (
+    <div>
+      <h1>Edit User</h1>
+      {getContent(data, error)}
+    </div>
   );
 };
 
