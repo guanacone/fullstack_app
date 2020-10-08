@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useAPI = ({ url, defaultData = null }) => {
-  const [data, setdata] = useState(defaultData);
+const useAPI = ({ url }) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get(url);
-      setdata(result.data);
+      try {
+        const result = await axios.get(url);
+        setData(result.data);
+      } catch (err) {
+        setError(err);
+      }
     })();
   }, []);
-
-  return data;
+  return { data, error };
 };
 
 export default useAPI;

@@ -21,7 +21,6 @@ const DeleteButton = styled.button`
     outline: none;
   }
 `;
-
 const submitToApi = async (endpoint) => {
   try {
     const response = await axios.delete(
@@ -33,7 +32,6 @@ const submitToApi = async (endpoint) => {
     console.log(error);
   }
 };
-
 const deleteUser = (endpoint) => {
   if (window.confirm('Do you want to delete the user?')) {
     submitToApi(endpoint);
@@ -41,24 +39,41 @@ const deleteUser = (endpoint) => {
 };
 
 const User = ({ id }) => {
-  const data = useAPI({ url: `${url}/api/user/${id}` });
+  const { data, error } = useAPI({ url: `${url}/user/${id}` });
+  const getContent = (dataContent, errorContent) => {
+    if (errorContent) {
+      return (
+        <p>{errorContent.message}</p>
+      );
+    } if (dataContent) {
+      return (
+        <>
+          <p>User ID: {dataContent._id}</p>
+          <p>First Name: {dataContent.firstName}</p>
+          <p>Family Name: {dataContent.familyName}</p>
+          <Link
+                to={`/user/${dataContent._id}/edit`}
+              >
+            Edit
+          </Link>
+          <DeleteButton
+                type='button'
+                onClick={() => deleteUser(`${url}/user/${id}`)}
+              >
+            Delete User
+          </DeleteButton>
+        </>
+      );
+    }
+    return (
+      <p>loading...</p>
+    );
+  };
   return (
-    data && (
     <div>
-      <h3>User Profile: {data._id}</h3>
-      <p>First Name: {data.firstName}</p>
-      <p>Family Name: {data.familyName}</p>
-      <Link
-        to={`/user/${data._id}/edit`}
-      >
-        Edit
-      </Link>
-      <DeleteButton
-        type='button'
-        onClick={() => deleteUser(`${url}/api/user/${id}`)}>Delete User</DeleteButton>
-
+      <h1>User Profile</h1>
+      {getContent(data, error)}
     </div>
-    )
   );
 };
 

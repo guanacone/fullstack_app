@@ -28,7 +28,7 @@ const handleSubmit = (evt, endpoint, value1, value2) => {
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
-  const data = useAPI({ url: `${url}/api/user/${userID}` });
+  const { data, error } = useAPI({ url: `${url}/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
   useEffect(() => {
@@ -38,14 +38,29 @@ const UserNew = ({ location }) => {
     firstName.setValue(data.firstName);
     familyName.setValue(data.familyName);
   }, [data]);
-
-  return (
-    data && (
-      <UserForm
-    handleSubmit = {(evt) => handleSubmit(evt, `${url}/api/user/${userID}`, firstName, familyName)}
+  const getContent = (dataContent, errorContent) => {
+    if (errorContent) {
+      return (
+        <p>{errorContent.message}</p>
+      );
+    } if (dataContent) {
+      return (
+        <UserForm
+    handleSubmit = {(evt) => handleSubmit(evt, `${url}/user/${userID}`, firstName, familyName)}
     firstName={firstName}
     familyName={familyName} />
-    )
+      );
+    }
+    return (
+      <p>loading...</p>
+    );
+  };
+
+  return (
+    <div>
+      <h1>Edit User</h1>
+      {getContent(data, error)}
+    </div>
   );
 };
 
