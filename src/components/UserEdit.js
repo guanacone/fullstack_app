@@ -4,7 +4,7 @@ import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useAPI from '../hooks/useAPI';
-import url from '../url';
+import url from '../utils/url';
 
 const submitToApi = async (endpoint, firstName, familyName) => {
   try {

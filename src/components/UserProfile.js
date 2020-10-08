@@ -3,7 +3,7 @@ import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
 import useAPI from '../hooks/useAPI';
-import url from '../url';
+import url from '../utils/url';
 
 const DeleteButton = styled.button`
   background: none;

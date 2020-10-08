@@ -3,7 +3,7 @@ import axios from 'axios';
 import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
-import url from '../url';
+import url from '../utils/url';
 
 const submitToApi = async (firstName, familyName) => {
   try {
