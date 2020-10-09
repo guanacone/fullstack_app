@@ -3,12 +3,7 @@ import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useFetchAPI from '../hooks/useFetchAPI';
 import url from '../utils/url';
-import submitToAPI from '../utils/submitToAPI';
-
-const handleSubmit = (evt, method, endpoint, data) => {
-  evt.preventDefault();
-  submitToAPI(method, endpoint, data);
-};
+import handleSubmit from '../utils/handleSubmit';
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
@@ -30,7 +25,12 @@ const UserNew = ({ location }) => {
     } if (dataContent) {
       return (
         <UserForm
-    handleSubmit = {(evt) => handleSubmit(evt, 'put', `user/${userID}`, { firstName: firstName.value, familyName: familyName.value })}
+    handleSubmit = {(evt) => handleSubmit({
+      evt,
+      method: 'put',
+      endpoint: `user/${userID}`,
+      data: { firstName: firstName.value, familyName: familyName.value },
+    })}
     firstName={firstName}
     familyName={familyName} />
       );

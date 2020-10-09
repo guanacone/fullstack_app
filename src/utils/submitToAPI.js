@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { navigate } from 'gatsby';
 import url from './url';
 
 const submitToAPI = async (method, endpoint, data) => {
@@ -8,8 +7,8 @@ const submitToAPI = async (method, endpoint, data) => {
     url: `${url}/${endpoint}`,
     data,
   });
-  const id = response.data._id;
-  navigate(`/user/${id}`);
+
+  return response;
 };
 
 export default submitToAPI;
