@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useAPI = ({ url }) => {
+const useFetchAPI = ({ url }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -18,4 +18,4 @@ const useAPI = ({ url }) => {
   return { data, error };
 };
 
-export default useAPI;
+export default useFetchAPI;
