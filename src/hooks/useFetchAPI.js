@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useFetchAPI = ({ url }) => {
+const useFetchAPI = ({ endpoint }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const result = await axios.get(url);
+        const result = await axios({ url: endpoint });
         setData(result.data);
       } catch (err) {
         setError(err);

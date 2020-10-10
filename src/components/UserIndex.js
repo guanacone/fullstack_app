@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
-import url from '../utils/url';
 
 const UserIndex = () => {
-  const { data, error } = useFetchAPI({ url: `${url}/user` });
+  const { data, error } = useFetchAPI({ endpoint: '/user' });
+  console.log({ data, error });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (

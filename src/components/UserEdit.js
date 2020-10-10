@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useFetchAPI from '../hooks/useFetchAPI';
-import url from '../utils/url';
 import handleSubmit from '../utils/handleSubmit';
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
-  const { data, error } = useFetchAPI({ url: `${url}/user/${userID}` });
+  const { data, error } = useFetchAPI({ endpoint: `/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
   useEffect(() => {
