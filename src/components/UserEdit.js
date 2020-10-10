@@ -1,34 +1,12 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
-import useAPI from '../hooks/useAPI';
-import url from '../url';
-
-const submitToApi = async (endpoint, firstName, familyName) => {
-  try {
-    const response = await axios.put(
-      endpoint, {
-        firstName: firstName.value,
-        familyName: familyName.value,
-      },
-    );
-    const id = response.data._id;
-    navigate(`/user/${id}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const handleSubmit = (evt, endpoint, value1, value2) => {
-  evt.preventDefault();
-  submitToApi(endpoint, value1, value2);
-};
+import useFetchAPI from '../hooks/useFetchAPI';
+import handleSubmit from '../utils/handleSubmit';
 
 const UserNew = ({ location }) => {
   const userID = location.pathname.split('/')[2];
-  const { data, error } = useAPI({ url: `${url}/user/${userID}` });
+  const { data, error } = useFetchAPI({ endpoint: `/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
   useEffect(() => {
@@ -46,7 +24,12 @@ const UserNew = ({ location }) => {
     } if (dataContent) {
       return (
         <UserForm
-    handleSubmit = {(evt) => handleSubmit(evt, `${url}/user/${userID}`, firstName, familyName)}
+    handleSubmit = {(evt) => handleSubmit({
+      evt,
+      method: 'put',
+      endpoint: `user/${userID}`,
+      data: { firstName: firstName.value, familyName: familyName.value },
+    })}
     firstName={firstName}
     familyName={familyName} />
       );

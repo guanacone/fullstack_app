@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
-import useAPI from '../hooks/useAPI';
-import url from '../url';
+import useFetchAPI from '../hooks/useFetchAPI';
 
 const DeleteButton = styled.button`
   background: none;
@@ -21,25 +20,19 @@ const DeleteButton = styled.button`
     outline: none;
   }
 `;
-const submitToApi = async (endpoint) => {
-  try {
-    const response = await axios.delete(
-      endpoint,
-    );
-    console.log(response);
-    navigate('/user');
-  } catch (error) {
-    console.log(error);
-  }
-};
-const deleteUser = (endpoint) => {
+
+const deleteUser = async (endpoint) => {
   if (window.confirm('Do you want to delete the user?')) {
-    submitToApi(endpoint);
+    await axios({
+      method: 'delete',
+      url: endpoint,
+    });
+    navigate('/user');
   }
 };
 
 const User = ({ id }) => {
-  const { data, error } = useAPI({ url: `${url}/user/${id}` });
+  const { data, error } = useFetchAPI({ endpoint: `/user/${id}` });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (
@@ -58,7 +51,7 @@ const User = ({ id }) => {
           </Link>
           <DeleteButton
                 type='button'
-                onClick={() => deleteUser(`${url}/user/${id}`)}
+                onClick={() => deleteUser(`user/${id}`)}
               >
             Delete User
           </DeleteButton>
