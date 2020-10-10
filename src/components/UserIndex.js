@@ -4,7 +4,6 @@ import useFetchAPI from '../hooks/useFetchAPI';
 
 const UserIndex = () => {
   const { data, error } = useFetchAPI({ endpoint: '/user' });
-  console.log({ data, error });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (

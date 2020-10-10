@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
-// import url from '../utils/url';
 
 const Home = () => {
   const { data, error } = useFetchAPI({ url: '' });
