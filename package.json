@@ -27,6 +27,9 @@
     "gatsby-plugin-styled-components": "3.3.12",
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.10.5",
+    "passport": "0.4.1",
+    "passport-jwt": "4.0.0",
+    "passport-local": "1.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "styled-components": "5.2.0"
