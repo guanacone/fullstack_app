@@ -37,6 +37,7 @@ exports.createUser = async (req, res, next) => {
 
 // show user
 exports.showUser = async (req, res, next) => {
+  console.log(req.user);
   try {
     const userinstance = await User.findById(req.params.id);
     if (userinstance === null) {
@@ -52,10 +53,10 @@ exports.showUser = async (req, res, next) => {
 
 // update user
 exports.updateUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName) {
+  if (!req.body.firstName || !req.body.familyName || !req.body.email) {
     return res
       .status(400)
-      .json({ message: 'Missing first name or family name' });
+      .json({ message: 'Missing data' });
   }
   try {
     const userinstance = await User.findByIdAndUpdate(
@@ -63,6 +64,7 @@ exports.updateUser = async (req, res, next) => {
       {
         firstName: req.body.firstName,
         familyName: req.body.familyName,
+        email: req.body.email,
       },
       { new: true },
     );
@@ -70,6 +72,10 @@ exports.updateUser = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'User not found' });
+    } else if (req.user._id !== req.params.id) {
+      return res
+        .status(401)
+        .json({ message: 'Unauthorized' });
     }
     return res.json(userinstance);
   } catch(err) {
@@ -85,6 +91,10 @@ exports.destroyUser = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'User not found' });
+    } else if (req.user._id !== req.params.id) {
+      return res
+        .status(401)
+        .json({ message: 'Unauthorized' });
     }
     return res.json(deletedUser);
   } catch(err) {
