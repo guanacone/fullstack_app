@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 // index of all users
 exports.indexUser = async (req, res, next) => {
@@ -21,6 +23,8 @@ exports.createUser = async (req, res, next) => {
     const newUser = await new User({
       firstName: req.body.firstName,
       familyName: req.body.familyName,
+      email: req.body.email,
+      password: req.body.password,
     })
       .save();
     return res
@@ -86,4 +90,35 @@ exports.destroyUser = async (req, res, next) => {
   } catch(err) {
     next(err);
   }
+};
+
+// login user
+exports.loginUser = async (req, res, next) => {
+  passport.authenticate(
+    'login',
+    async (err, user, info) => {
+      try {
+        if (err || !user) {
+          const error = new Error('An error occurred.');
+
+          return next(error);
+        }
+
+        req.login(
+          user,
+          { session: false },
+          async (error) => {
+            if (error) return next(error);
+
+            const body = { _id: user._id, email: user.email };
+            const token = jwt.sign({ user: body }, 'TOP_SECRET');
+
+            return res.json({ token, info });
+          },
+        );
+      } catch (error) {
+        return next(error);
+      }
+    },
+  )(req, res, next);
 };
