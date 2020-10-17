@@ -1,7 +1,6 @@
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
-const passport = require('passport');
 const cors = require('cors');
 // const userController = require('./controllers/userController');
 
