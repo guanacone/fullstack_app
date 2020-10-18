@@ -37,7 +37,6 @@ exports.createUser = async (req, res, next) => {
 
 // show user
 exports.showUser = async (req, res, next) => {
-  console.log(req.user);
   try {
     const userinstance = await User.findById(req.params.id);
     if (userinstance === null) {
