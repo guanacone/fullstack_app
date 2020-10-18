@@ -52,7 +52,11 @@ exports.showUser = async (req, res, next) => {
 
 // update user
 exports.updateUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName || !req.body.email) {
+  if (req.user._id !== req.params.id) {
+    return res
+      .status(401)
+      .json({ message: 'Unauthorized' });
+  } else if (!req.body.firstName || !req.body.familyName || !req.body.email) {
     return res
       .status(400)
       .json({ message: 'Missing data' });
@@ -71,10 +75,6 @@ exports.updateUser = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'User not found' });
-    } else if (req.user._id !== req.params.id) {
-      return res
-        .status(401)
-        .json({ message: 'Unauthorized' });
     }
     return res.json(userinstance);
   } catch(err) {
@@ -84,16 +84,17 @@ exports.updateUser = async (req, res, next) => {
 
 // destroy user
 exports.destroyUser = async (req, res, next) => {
+  if (req.user._id !== req.params.id) {
+    return res
+      .status(401)
+      .json({ message: 'Unauthorized' });
+  }
   try {
     const deletedUser = await User.findByIdAndRemove(req.params.id);
     if (deletedUser === null) {
       return res
         .status(404)
         .json({ message: 'User not found' });
-    } else if (req.user._id !== req.params.id) {
-      return res
-        .status(401)
-        .json({ message: 'Unauthorized' });
     }
     return res.json(deletedUser);
   } catch(err) {
@@ -105,10 +106,10 @@ exports.destroyUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   passport.authenticate(
     'login',
-    async (err, user, info) => {
+    async (user, info) => {
       try {
-        if (err || !user) {
-          const error = new Error('An error occurred.');
+        if (!user) {
+          const error = info;
 
           return next(error);
         }
