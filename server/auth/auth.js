@@ -15,16 +15,16 @@ passport.use(
       try {
         const user = await User.findOne({ email });
         if (!user) {
-          return done(null, false, { status: 404, message: 'User not found' });
+          return done(false, { status: 404, message: 'User not found' });
         }
 
         const validate = await user.isValidPassword(password);
 
         if (!validate) {
-          return done(null, false, { status: 401, message: 'Wrong Password' });
+          return done(false, { status: 401, message: 'Wrong Password' });
         }
 
-        return done(null, user, { message: 'Logged in Successfully' });
+        return done(user, { message: 'Logged in Successfully' });
       } catch (error) {
         return done(error);
       }
