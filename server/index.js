@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-require('./auth/auth');
+require('./auth');
 
 gatsby.prepare({ app }, () => {
   app.get('/api', (req, res) => {
@@ -27,8 +27,7 @@ gatsby.prepare({ app }, () => {
     console.log(err);
     return res
       .status(err.status || 500)
-      .json({ message: 'Internal Server Error',
-        error: err });
+      .json({ message: 'Internal Server Error' });
   });
 });
 

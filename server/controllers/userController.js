@@ -109,9 +109,10 @@ exports.loginUser = async (req, res, next) => {
     async (user, info) => {
       try {
         if (!user) {
-          const error = info;
-
-          return next(error);
+          const { status, message } = info;
+          res
+            .status(status)
+            .json({ message });
         }
 
         req.login(
