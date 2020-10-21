@@ -1,6 +1,12 @@
 import React from 'react';
 
-const UserForm = ({ firstName, familyName, handleSubmit }) => (
+const UserForm = ({
+  firstName,
+  familyName,
+  email,
+  password,
+  handleSubmit,
+}) => (
   <form onSubmit={handleSubmit}>
     <label>
       First Name:
@@ -9,6 +15,14 @@ const UserForm = ({ firstName, familyName, handleSubmit }) => (
     <label>
       Last Name:
       <input type='text' {...familyName.bind} />
+    </label>
+    <label>
+      Email:
+      <input type='text' {...email.bind} />
+    </label>
+    <label>
+      Password:
+      <input type='text' {...password.bind} />
     </label>
     <input type='submit' value='Submit' />
   </form>
