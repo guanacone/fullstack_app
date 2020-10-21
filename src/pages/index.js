@@ -21,7 +21,9 @@ const Home = () => {
   return (
     <div>
       <h1>Message:{getContent(data, error)}</h1>
-      <Link to={'/user'}>User List</Link>
+      <Link to={'/login'}>Log In!</Link>
+      <br/>
+      <Link to={'/user/new'}>Sign Up! </Link>
     </div>
   );
 };
