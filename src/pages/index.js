@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
+import { isLoggedIn, logout } from '../services/auth';
 
 const Home = () => {
   const { data, error } = useFetchAPI({ url: '' });
@@ -18,12 +19,22 @@ const Home = () => {
       <p>loading...</p>
     );
   };
+
   return (
     <div>
       <h1>Message:{getContent(data, error)}</h1>
-      <Link to={'/login'}>Log In!</Link>
-      <br/>
-      <Link to={'/user/new'}>Sign Up! </Link>
+      {isLoggedIn()
+        ? <>
+          <Link to={'/user'}>User Index</Link>
+          <br/>
+          <Link to={'#'} onClick={() => { logout(); }}>Log Out</Link>
+        </>
+        : <>
+          <Link to={'/login'}>Log In!</Link>
+          <br/>
+          <Link to={'/user/new'}>Sign Up! </Link>
+        </>
+      }
     </div>
   );
 };

@@ -3,22 +3,26 @@ import { navigate } from 'gatsby';
 import { handleLogin, isLoggedIn } from '../services/auth';
 import useInput from '../hooks/useInput';
 
+const handleSubmit = async (evt, { email, password }) => {
+  evt.preventDefault();
+  handleLogin({ email, password });
+  console.log(isLoggedIn());
+};
+
 const Login = () => {
   const email = useInput('');
   const password = useInput('');
-
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    handleLogin({ email: email.value, password: password.value });
-    console.log(isLoggedIn());
-  };
 
   if (isLoggedIn()) {
     navigate('/user');
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={
+      (evt) => handleSubmit(
+        evt,
+        { email: email.value, password: password.value },
+      )}>
       <label>
         Email:
         <input type='text' {...email.bind} />
