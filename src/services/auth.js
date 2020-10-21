@@ -27,5 +27,4 @@ export const isLoggedIn = () => {
 
 export const logout = () => {
   setUser({});
-  // callback();
 };
