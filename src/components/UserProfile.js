@@ -23,9 +23,11 @@ const DeleteButton = styled.button`
 
 const deleteUser = async (endpoint) => {
   if (window.confirm('Do you want to delete the user?')) {
+    const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')).token : null;
     await axios({
       method: 'delete',
       url: endpoint,
+      headers: { Authorization: `Bearer ${userToken}` },
     });
     navigate('/user');
   }
