@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
+import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useFetchAPI from '../hooks/useFetchAPI';
 import handleSubmit from '../utils/handleSubmit';
+import { isLoggedIn } from '../services/auth';
 
 const UserNew = ({ location }) => {
+  if (!isLoggedIn()) {
+    navigate('/login');
+  }
+
   const userID = location.pathname.split('/')[2];
   const { data, error } = useFetchAPI({ endpoint: `/user/${userID}` });
   const firstName = useInput('');

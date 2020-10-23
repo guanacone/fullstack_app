@@ -3,6 +3,7 @@ import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
 import useFetchAPI from '../hooks/useFetchAPI';
+import { isLoggedIn } from '../services/auth';
 
 const DeleteButton = styled.button`
   background: none;
@@ -21,19 +22,23 @@ const DeleteButton = styled.button`
   }
 `;
 
-const deleteUser = async (endpoint) => {
+const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')).token : null;
+
+const deleteUser = async (endpoint, token) => {
   if (window.confirm('Do you want to delete the user?')) {
-    const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')).token : null;
     await axios({
       method: 'delete',
       url: endpoint,
-      headers: { Authorization: `Bearer ${userToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     navigate('/user');
   }
 };
 
 const User = ({ id }) => {
+  if (!isLoggedIn()) {
+    navigate('/login');
+  }
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}` });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -46,17 +51,21 @@ const User = ({ id }) => {
           <p>User ID: {dataContent._id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
-          <Link
-                to={`/user/${dataContent._id}/edit`}
-              >
-            Edit
-          </Link>
-          <DeleteButton
-                type='button'
-                onClick={() => deleteUser(`user/${id}`)}
-              >
-            Delete User
-          </DeleteButton>
+          {isLoggedIn()
+            ? <>
+              <Link
+                  to={`/user/${dataContent._id}/edit`}
+                >
+                Edit
+              </Link>
+              <DeleteButton
+                  type='button'
+                  onClick={() => deleteUser(`user/${id}`, userToken)}
+                >
+                Delete User
+              </DeleteButton>
+            </> : null
+          }
         </>
       );
     }
@@ -64,6 +73,7 @@ const User = ({ id }) => {
       <p>loading...</p>
     );
   };
+
   return (
     <div>
       <h1>User Profile</h1>
