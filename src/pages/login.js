@@ -5,7 +5,8 @@ import useInput from '../hooks/useInput';
 
 const handleSubmit = async (evt, { email, password }) => {
   evt.preventDefault();
-  handleLogin({ email, password });
+  await handleLogin({ email, password });
+  return isLoggedIn() ? navigate('/user') : alert('wrong email/password');
 };
 
 const Login = () => {
@@ -19,7 +20,6 @@ const Login = () => {
   return (
     <form onSubmit={(evt) => {
       handleSubmit(evt, { email: email.value, password: password.value });
-      navigate('/user');
     }}>
       <label>
         Email:
