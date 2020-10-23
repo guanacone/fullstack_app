@@ -8,10 +8,10 @@ const useFetchAPI = ({ endpoint }) => {
   useEffect(() => {
     (async () => {
       try {
-        const authUser = await JSON.parse(window.localStorage.getItem('gatsbyUser'));
+        const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')) : null;
         const result = await axios({
           url: endpoint,
-          headers: { Authorization: `Bearer ${authUser.token}` },
+          headers: { Authorization: `Bearer ${userToken}` },
         });
         setData(result.data);
       } catch (err) {
