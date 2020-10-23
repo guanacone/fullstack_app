@@ -22,7 +22,7 @@ const UserForm = ({
     </label>
     <label>
       Password:
-      <input type='text' {...password.bind} />
+      <input type='password' {...password.bind} />
     </label>
     <input type='submit' value='Submit' />
   </form>
