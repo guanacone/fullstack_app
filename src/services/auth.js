@@ -3,7 +3,10 @@ import url from '../utils/url';
 
 export const isBrowser = () => typeof window !== 'undefined';
 
-export const getUser = () => (isBrowser() && window.localStorage.getItem('gatsbyUser') ? JSON.parse(window.localStorage.getItem('gatsbyUser')) : {});
+export const getUser = () => {
+  const user = isBrowser() && window.localStorage.getItem('gatsbyUser');
+  return user ? JSON.parse(user) : {};
+};
 
 const setUser = (token) => window.localStorage.setItem('gatsbyUser', JSON.stringify(token));
 
