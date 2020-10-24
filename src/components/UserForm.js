@@ -10,19 +10,19 @@ const UserForm = ({
   <form onSubmit={handleSubmit}>
     <label>
       First Name:
-      <input type='text' {...firstName.bind}/>
+      <input type='text' required {...firstName.bind}/>
     </label>
     <label>
       Last Name:
-      <input type='text' {...familyName.bind} />
+      <input type='text' required {...familyName.bind} />
     </label>
     <label>
       Email:
-      <input type='text' {...email.bind} />
+      <input type='email' required {...email.bind} />
     </label>
     <label>
       Password:
-      <input type='password' {...password.bind} />
+      <input type='password' required minLength='6' {...password.bind} />
     </label>
     <input type='submit' value='Submit' />
   </form>
