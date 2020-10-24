@@ -14,7 +14,7 @@ exports.indexUser = async (req, res, next) => {
 
 // create new user
 exports.createUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName) {
+  if (!req.body.firstName || !req.body.familyName || !req.body.email || !req.body.password) {
     return res
       .status(400)
       .json({ message: 'Missing first name or family name' });
