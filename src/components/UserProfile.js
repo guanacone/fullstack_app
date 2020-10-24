@@ -3,7 +3,7 @@ import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
 import useFetchAPI from '../hooks/useFetchAPI';
-import { isLoggedIn } from '../services/auth';
+import { isLoggedIn, getUser } from '../services/auth';
 
 const DeleteButton = styled.button`
   background: none;
@@ -22,7 +22,7 @@ const DeleteButton = styled.button`
   }
 `;
 
-const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')).token : null;
+const user = getUser();
 
 const deleteUser = async (endpoint, token) => {
   if (window.confirm('Do you want to delete the user?')) {
@@ -58,7 +58,7 @@ const User = ({ id }) => {
           </Link>
           <DeleteButton
                   type='button'
-                  onClick={() => deleteUser(`user/${id}`, userToken)}
+                  onClick={() => deleteUser(`user/${id}`, user.token)}
                 >
             Delete User
           </DeleteButton>

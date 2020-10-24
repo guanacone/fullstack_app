@@ -1,15 +1,16 @@
 import Axios from 'axios';
 import { navigate } from 'gatsby';
+import { getUser } from '../services/auth';
 
 const handleSubmit = async ({ evt, method, endpoint, data }) => {
   evt.preventDefault();
   try {
-    const userToken = JSON.parse(window.localStorage.getItem('gatsbyUser')) ? JSON.parse(window.localStorage.getItem('gatsbyUser')) : null;
+    const user = getUser();
     const response = await Axios({
       method,
       url: endpoint,
       data,
-      headers: { Authorization: `Bearer ${userToken}` } });
+      headers: { Authorization: `Bearer ${user.token}` } });
     navigate(`/user/${response.data._id}`);
   } catch (err) {
     console.log(err);
