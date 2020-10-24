@@ -52,11 +52,7 @@ exports.showUser = async (req, res, next) => {
 
 // update user
 exports.updateUser = async (req, res, next) => {
-  if (req.user._id !== req.params.id) {
-    return res
-      .status(401)
-      .json({ message: 'Unauthorized' });
-  } else if (!req.body.firstName || !req.body.familyName || !req.body.email) {
+  if (!req.body.firstName || !req.body.familyName || !req.body.email) {
     return res
       .status(400)
       .json({ message: 'Missing data' });
@@ -68,6 +64,7 @@ exports.updateUser = async (req, res, next) => {
         firstName: req.body.firstName,
         familyName: req.body.familyName,
         email: req.body.email,
+        password: req.body.password,
       },
       { new: true },
     );
@@ -84,11 +81,6 @@ exports.updateUser = async (req, res, next) => {
 
 // destroy user
 exports.destroyUser = async (req, res, next) => {
-  if (req.user._id !== req.params.id) {
-    return res
-      .status(401)
-      .json({ message: 'Unauthorized' });
-  }
   try {
     const deletedUser = await User.findByIdAndRemove(req.params.id);
     if (deletedUser === null) {
