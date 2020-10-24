@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, navigate } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
-import { isLoggedIn } from '../services/auth';
+import { isBrowser, isLoggedIn } from '../services/auth';
 
 const UserIndex = () => {
-  if (!isLoggedIn()) {
+  if (isBrowser() && !isLoggedIn()) {
     navigate('/login');
   }
 
