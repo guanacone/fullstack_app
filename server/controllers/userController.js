@@ -110,7 +110,7 @@ exports.loginUser = async (req, res, next) => {
       try {
         if (!user) {
           const { status, message } = info;
-          res
+          return res
             .status(status)
             .json({ message });
         }
