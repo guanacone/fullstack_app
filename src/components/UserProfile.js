@@ -48,11 +48,11 @@ const User = ({ id }) => {
     } if (dataContent) {
       return (
         <>
-          <p>User ID: {dataContent._id}</p>
+          <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
           <Link
-                  to={`/user/${dataContent._id}/edit`}
+                  to={`/user/${id}/edit`}
                 >
             Edit
           </Link>
