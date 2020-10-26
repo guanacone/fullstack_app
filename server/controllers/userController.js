@@ -31,6 +31,17 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json(newUser);
   } catch(err) {
+    if (err.name === 'MongoError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError'){
+        return res
+          .status(400)
+          .json({ message: 'check first name or last name' }) ;
+      } else {
+        return res
+          .status(400)
+          .json({ message: 'duplicate email' });
+      }
+    }
     next(err);
   }
 };

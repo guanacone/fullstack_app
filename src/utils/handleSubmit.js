@@ -13,7 +13,11 @@ const handleSubmit = async ({ evt, method, endpoint, data }) => {
       headers: { Authorization: `Bearer ${user.token}` } });
     navigate(`/user/${response.data._id}`);
   } catch (err) {
-    console.log(err);
+    const { response } = err;
+    if (response.status === 400) {
+      alert(response.data.message);
+    }
+    // console.log({ err });
   }
 };
 
