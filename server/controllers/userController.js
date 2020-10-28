@@ -31,16 +31,15 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json(newUser);
   } catch(err) {
-    if (err.name === 'MongoError' || err.name === 'ValidationError') {
-      if (err.name === 'ValidationError'){
-        return res
-          .status(400)
-          .json({ message: 'check first name or last name' }) ;
-      } else {
-        return res
-          .status(400)
-          .json({ message: 'duplicate email' });
-      }
+    if (err.name === 'ValidationError'){
+      return res
+        .status(400)
+        .send(err) ;
+    }
+    if (err.name === 'MongoError') {
+      return res
+        .status(400)
+        .send({ message: 'email already registered' });
     }
     next(err);
   }
@@ -63,10 +62,10 @@ exports.showUser = async (req, res, next) => {
 
 // update user
 exports.updateUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName || !req.body.email) {
+  if (!req.body.firstName || !req.body.familyName || !req.body.email || !req.body.password) {
     return res
       .status(400)
-      .json({ message: 'Missing data' });
+      .json({ message: 'Missing first name or family name' });
   }
   try {
     const userinstance = await User.findByIdAndUpdate(
@@ -86,6 +85,16 @@ exports.updateUser = async (req, res, next) => {
     }
     return res.json(userinstance);
   } catch(err) {
+    if (err.name === 'ValidationError'){
+      return res
+        .status(400)
+        .send(err) ;
+    }
+    if (err.name === 'MongoError') {
+      return res
+        .status(400)
+        .send({ message: 'email already registered' });
+    }
     next(err);
   }
 };

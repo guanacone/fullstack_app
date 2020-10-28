@@ -17,7 +17,6 @@ const handleSubmit = async ({ evt, method, endpoint, data }) => {
     if (response.status === 400) {
       alert(response.data.message);
     }
-    // console.log({ err });
   }
 };
 
