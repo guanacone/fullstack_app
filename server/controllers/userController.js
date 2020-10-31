@@ -2,6 +2,14 @@ const User = require('../models/user');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
+const isDuplicateEmail = (error, req, res) => {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    return res
+      .status(400)
+      .json({ message: 'email already registered' });
+  }
+};
+
 // index of all users
 exports.indexUser = async (req, res, next) => {
   try {
@@ -14,11 +22,6 @@ exports.indexUser = async (req, res, next) => {
 
 // create new user
 exports.createUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName || !req.body.email || !req.body.password) {
-    return res
-      .status(400)
-      .json({ message: 'Missing first name or family name' });
-  }
   try {
     const newUser = await new User({
       firstName: req.body.firstName,
@@ -31,16 +34,13 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json(newUser);
   } catch(err) {
+    console.log(err);
     if (err.name === 'ValidationError'){
       return res
         .status(400)
         .send(err) ;
     }
-    if (err.name === 'MongoError') {
-      return res
-        .status(400)
-        .send({ message: 'email already registered' });
-    }
+    isDuplicateEmail(err, req, res);
     next(err);
   }
 };
@@ -62,11 +62,6 @@ exports.showUser = async (req, res, next) => {
 
 // update user
 exports.updateUser = async (req, res, next) => {
-  if (!req.body.firstName || !req.body.familyName || !req.body.email || !req.body.password) {
-    return res
-      .status(400)
-      .json({ message: 'Missing first name or family name' });
-  }
   try {
     const userinstance = await User.findByIdAndUpdate(
       req.params.id,
@@ -90,11 +85,7 @@ exports.updateUser = async (req, res, next) => {
         .status(400)
         .send(err) ;
     }
-    if (err.name === 'MongoError') {
-      return res
-        .status(400)
-        .send({ message: 'email already registered' });
-    }
+    isDuplicateEmail(err, req, res);
     next(err);
   }
 };
