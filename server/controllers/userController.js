@@ -34,11 +34,14 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json(newUser);
   } catch(err) {
-    console.log(err);
-    if (err.name === 'ValidationError'){
-      return res
-        .status(400)
-        .send(err) ;
+    if (err.name === 'ValidationError') {
+      let errors = {};
+
+      Object.keys(err.errors).forEach((key) => {
+        errors[key] = err.errors[key].message;
+      });
+
+      return res.status(400).json({ message: JSON.stringify(errors) });
     }
     isDuplicateEmail(err, req, res);
     next(err);
