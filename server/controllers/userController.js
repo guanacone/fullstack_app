@@ -1,14 +1,24 @@
 const User = require('../models/user');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
 
-const isDuplicateEmail = (error, req, res) => {
-  if (error.name === 'MongoError' && error.code === 11000) {
-    return res
-      .status(400)
-      .json({ message: 'email already registered' });
+const checkMongoError = (ex) => {
+  if (ex.name === 'ValidationError') {
+    let errors = {};
+
+    Object.keys(ex.errors).forEach((key) => {
+      errors[key] = ex.errors[key].message;
+    });
+
+    return createError(400, JSON.stringify(errors));
+  }
+
+  if (ex.name === 'MongoError' && ex.code === 11000) {
+    return createError(400, 'email already registered');
   }
 };
+
 
 // index of all users
 exports.indexUser = async (req, res, next) => {
@@ -34,17 +44,7 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json(newUser);
   } catch(err) {
-    if (err.name === 'ValidationError') {
-      let errors = {};
-
-      Object.keys(err.errors).forEach((key) => {
-        errors[key] = err.errors[key].message;
-      });
-
-      return res.status(400).json({ message: JSON.stringify(errors) });
-    }
-    isDuplicateEmail(err, req, res);
-    next(err);
+    next(checkMongoError(err));
   }
 };
 
@@ -83,13 +83,7 @@ exports.updateUser = async (req, res, next) => {
     }
     return res.json(userinstance);
   } catch(err) {
-    if (err.name === 'ValidationError'){
-      return res
-        .status(400)
-        .send(err) ;
-    }
-    isDuplicateEmail(err, req, res);
-    next(err);
+    next(checkMongoError(err));
   }
 };
 
