@@ -22,6 +22,7 @@
     "bootstrap": "4.5.2",
     "cors": "2.8.5",
     "express": "4.17.1",
+    "express-async-handler": "1.1.4",
     "gatsby": "2.24.52",
     "gatsby-plugin-create-client-paths": "2.3.11",
     "gatsby-plugin-nodejs": "0.7.0",
