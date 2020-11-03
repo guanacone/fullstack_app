@@ -9,6 +9,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const user = require('./routes/user');
+const createHttpError = require('http-errors');
 
 const app = express();
 
@@ -25,9 +26,14 @@ gatsby.prepare({ app }, () => {
   //eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     console.log(err);
+    if(createHttpError.isHttpError(err)) {
+      return res
+        .status(err.status)
+        .json({ message: err.message });
+    }
     return res
-      .status(err.status || 500)
-      .json({ message: err.message });
+      .status(500)
+      .json({ message: 'Internal server error' });
   });
 });
 

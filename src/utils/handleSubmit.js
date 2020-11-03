@@ -14,9 +14,7 @@ const handleSubmit = async ({ evt, method, endpoint, data }) => {
     navigate(`/user/${response.data._id}`);
   } catch (err) {
     const { response } = err;
-    if (response.status === 400) {
-      alert(response.data.message);
-    }
+    alert(response.data.message);
   }
 };
 
