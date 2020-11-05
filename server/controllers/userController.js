@@ -49,9 +49,7 @@ exports.createUser = async (req, res) => {
 exports.showUser = async (req, res) => {
   const userinstance = await User.findById(req.params.id);
   if (userinstance === null) {
-    return res
-      .status(404)
-      .json({ message: 'User not found' });
+    throw createError(404, 'User not found');
   }
   return res.json(userinstance);
 };
@@ -70,9 +68,7 @@ exports.updateUser = async (req, res, next) => {
       { new: true },
     );
     if (userinstance === null) {
-      return res
-        .status(404)
-        .json({ message: 'User not found' });
+      throw createError(404, 'User not found');
     }
     return res.json(userinstance);
   } catch(err) {
@@ -84,9 +80,7 @@ exports.updateUser = async (req, res, next) => {
 exports.destroyUser = async (req, res) => {
   const deletedUser = await User.findByIdAndRemove(req.params.id);
   if (deletedUser === null) {
-    return res
-      .status(404)
-      .json({ message: 'User not found' });
+    throw createError(404, 'User not found');
   }
   return res.json(deletedUser);
 };
