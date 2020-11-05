@@ -6,6 +6,8 @@ import handleSubmit from '../utils/handleSubmit';
 const UserNew = () => {
   const firstName = useInput('');
   const familyName = useInput('');
+  const email = useInput('');
+  const password = useInput('');
 
   return (
     <UserForm
@@ -13,10 +15,16 @@ const UserNew = () => {
       evt,
       method: 'post',
       endpoint: 'user',
-      data: { firstName: firstName.value, familyName: familyName.value },
+      data: {
+        firstName: firstName.value,
+        familyName: familyName.value,
+        email: email.value,
+        password: password.value },
     })}
     firstName={firstName}
-    familyName={familyName} />
+    familyName={familyName}
+    email={email}
+    password={password} />
   );
 };
 

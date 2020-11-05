@@ -3,6 +3,7 @@ import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
 import useFetchAPI from '../hooks/useFetchAPI';
+import { isLoggedIn, getUser } from '../services/auth';
 
 const DeleteButton = styled.button`
   background: none;
@@ -21,17 +22,23 @@ const DeleteButton = styled.button`
   }
 `;
 
-const deleteUser = async (endpoint) => {
+const user = getUser();
+
+const deleteUser = async (endpoint, token) => {
   if (window.confirm('Do you want to delete the user?')) {
     await axios({
       method: 'delete',
       url: endpoint,
+      headers: { Authorization: `Bearer ${token}` },
     });
     navigate('/user');
   }
 };
 
 const User = ({ id }) => {
+  if (!isLoggedIn()) {
+    navigate('/login');
+  }
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}` });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -41,18 +48,18 @@ const User = ({ id }) => {
     } if (dataContent) {
       return (
         <>
-          <p>User ID: {dataContent._id}</p>
+          <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
           <Link
-                to={`/user/${dataContent._id}/edit`}
-              >
+                  to={`/user/${id}/edit`}
+                >
             Edit
           </Link>
           <DeleteButton
-                type='button'
-                onClick={() => deleteUser(`user/${id}`)}
-              >
+                  type='button'
+                  onClick={() => deleteUser(`user/${id}`, user.token)}
+                >
             Delete User
           </DeleteButton>
         </>
@@ -62,6 +69,7 @@ const User = ({ id }) => {
       <p>loading...</p>
     );
   };
+
   return (
     <div>
       <h1>User Profile</h1>

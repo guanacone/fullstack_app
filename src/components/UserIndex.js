@@ -1,8 +1,13 @@
 import React from 'react';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
+import { isBrowser, isLoggedIn } from '../services/auth';
 
 const UserIndex = () => {
+  if (isBrowser() && !isLoggedIn()) {
+    navigate('/login');
+  }
+
   const { data, error } = useFetchAPI({ endpoint: '/user' });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -26,6 +31,7 @@ const UserIndex = () => {
       <p>loading...</p>
     );
   };
+
   return (
     <div>
       <h1>User Index</h1>

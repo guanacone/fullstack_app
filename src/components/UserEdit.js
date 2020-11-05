@@ -1,21 +1,33 @@
 import React, { useEffect } from 'react';
+import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useFetchAPI from '../hooks/useFetchAPI';
 import handleSubmit from '../utils/handleSubmit';
+import { isLoggedIn } from '../services/auth';
 
 const UserNew = ({ location }) => {
+  if (!isLoggedIn()) {
+    navigate('/login');
+  }
+
   const userID = location.pathname.split('/')[2];
   const { data, error } = useFetchAPI({ endpoint: `/user/${userID}` });
   const firstName = useInput('');
   const familyName = useInput('');
+  const email = useInput('');
+  const password = useInput('');
+
   useEffect(() => {
     if (!data) {
       return;
     }
     firstName.setValue(data.firstName);
     familyName.setValue(data.familyName);
+    email.setValue(data.email);
+    password.setValue(data.password);
   }, [data]);
+
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (
@@ -24,14 +36,20 @@ const UserNew = ({ location }) => {
     } if (dataContent) {
       return (
         <UserForm
-    handleSubmit = {(evt) => handleSubmit({
-      evt,
-      method: 'put',
-      endpoint: `user/${userID}`,
-      data: { firstName: firstName.value, familyName: familyName.value },
-    })}
-    firstName={firstName}
-    familyName={familyName} />
+      handleSubmit = {(evt) => handleSubmit({
+        evt,
+        method: 'put',
+        endpoint: `user/${userID}`,
+        data: {
+          firstName: firstName.value,
+          familyName: familyName.value,
+          email: email.value,
+          password: password.value },
+      })}
+      firstName={firstName}
+      familyName={familyName}
+      email={email}
+      password={password} />
       );
     }
     return (
