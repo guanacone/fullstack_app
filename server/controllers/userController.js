@@ -112,3 +112,14 @@ exports.loginUser = async (req, res, next) => {
     },
   )(req, res, next);
 };
+
+//refresh
+exports.refreshUser = async (req, res) => {
+  const { authorization } = req.headers;
+  const bearer = authorization.split(' ');
+  const { user } = jwt.decode(bearer[1]);
+  const body = { _id: user._id, email: user.email };
+  const token = jwt.sign({ user: body }, 'TOP_SECRET');
+
+  return res.json({ token });
+};
