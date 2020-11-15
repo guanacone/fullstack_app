@@ -107,9 +107,10 @@ exports.loginUser = async (req, res, next) => {
           if (err) return next(err);
 
           const body = { _id: user._id, email: user.email };
-          const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
+          const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
+          const refreshToken = jwt.sign({ user: body }, process.env.REFRESH_TOKEN_SECRET,{ expiresIn: '7d' });
 
-          return res.json({ token, info });
+          return res.json({ accessToken, refreshToken, info });
         },
       );
     },
