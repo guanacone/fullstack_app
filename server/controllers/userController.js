@@ -2,6 +2,9 @@ const User = require('../models/user');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -104,7 +107,7 @@ exports.loginUser = async (req, res, next) => {
           if (err) return next(err);
 
           const body = { _id: user._id, email: user.email };
-          const token = jwt.sign({ user: body }, 'TOP_SECRET');
+          const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
 
           return res.json({ token, info });
         },
