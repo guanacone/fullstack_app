@@ -36,6 +36,7 @@ passport.use(
 );
 
 passport.use(
+  'access token',
   new JWTstrategy(
     {
       secretOrKey: process.env.TOKEN_SECRET,
