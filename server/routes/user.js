@@ -12,5 +12,6 @@ router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
 router.delete('/:id', passportAuthAccessToken, asyncHandler(userController.destroyUser));
 router.post('/login',asyncHandler(userController.loginUser));
+router.post('/logout', asyncHandler(userController.logoutUser));
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
@@ -108,11 +109,34 @@ exports.loginUser = async (req, res, next) => {
 
           const body = { _id: user._id, email: user.email };
           const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
-          const refreshToken = jwt.sign({ user: body }, process.env.REFRESH_TOKEN_SECRET,{ expiresIn: '7d' });
+          const refreshToken = jwt.sign({ user: body }, process.env.REFRESH_TOKEN_SECRET,{ expiresIn: '1y' });
 
           return res.json({ accessToken, refreshToken, info });
         },
       );
     },
   )(req, res, next);
+};
+
+// logout user
+exports.logoutUser = async (req, res) => {
+  const { authorization } = req.headers;
+  const bearer = authorization.split(' ');
+  const refreshToken = bearer[1];
+  const { exp } = jwt.decode(refreshToken);
+
+  try {
+    await new Blacklist({
+      refreshToken,
+      expireAt: new Date(exp * 1000),
+
+    })
+      .save();
+    return res
+      .status(201)
+      .json({ message: 'logged out' });
+  }catch(err) {
+    checkMongoError(err);
+    throw err;
+  }
 };
