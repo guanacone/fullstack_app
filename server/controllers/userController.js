@@ -140,3 +140,14 @@ exports.logoutUser = async (req, res) => {
     throw err;
   }
 };
+
+// refresh access token
+exports.refreshUser = (req, res) => {
+  const { authorization } = req.headers;
+  const bearer = authorization.split(' ');
+  const { user } = jwt.decode(bearer[1]);
+  const body = { _id: user._id, email: user.email };
+  const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
+
+  return res.json({ accessToken });
+};
