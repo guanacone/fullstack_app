@@ -8,7 +8,7 @@ export const getUser = () => {
   return user ? JSON.parse(user) : {};
 };
 
-const setUser = (token) => window.localStorage.setItem('gatsbyUser', JSON.stringify(token));
+const setUser = (tokens) => window.localStorage.setItem('gatsbyUser', JSON.stringify(tokens));
 
 export const handleLogin = async ({ email, password }) => {
   try {
@@ -16,7 +16,10 @@ export const handleLogin = async ({ email, password }) => {
       method: 'post',
       url: `${url}/user/login`,
       data: { email, password } });
-    setUser({ token: data.token });
+    setUser({
+      token: data.accessToken,
+      refreshToken: data.refreshToken,
+    });
   } catch (err) {
     console.log(err);
   }
