@@ -5,6 +5,7 @@ const Blacklist = require('../models/blacklist');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const dotenv = require('dotenv');
+const createError = require('http-errors');
 
 dotenv.config();
 
@@ -67,8 +68,7 @@ passport.use(
         const refreshToken = authorization.split(' ')[1];
         const invalidToken = await Blacklist.findOne({ refreshToken });
         if(invalidToken){
-          console.log('in db!!!');
-          return done(false, { status: 401, message: 'Blacklisted token' });
+          throw createError(401, 'Blacklisted token');
         }
         return done(null, token.user);
       } catch (error) {
