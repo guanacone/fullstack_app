@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const dotenv = require('dotenv');
+const token = require('../utils/createToken');
 
 dotenv.config();
 
@@ -108,8 +109,8 @@ exports.loginUser = async (req, res, next) => {
           if (err) return next(err);
 
           const body = { _id: user._id, email: user.email };
-          const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
-          const refreshToken = jwt.sign({ user: body }, process.env.REFRESH_TOKEN_SECRET,{ expiresIn: '1y' });
+          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
+          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
 
           return res.json({ accessToken, refreshToken, info });
         },
@@ -143,9 +144,7 @@ exports.logoutUser = async (req, res) => {
 
 // refresh access token
 exports.refreshUser = (req, res) => {
-  const { authorization } = req.headers;
-  const bearer = authorization.split(' ');
-  const { user } = jwt.decode(bearer[1]);
+  const { user } = req;
   const body = { _id: user._id, email: user.email };
   const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
 
