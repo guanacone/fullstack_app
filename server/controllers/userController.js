@@ -1,7 +1,9 @@
 const User = require('../models/user');
+const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+const token = require('../utils/createToken');
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -104,11 +106,44 @@ exports.loginUser = async (req, res, next) => {
           if (err) return next(err);
 
           const body = { _id: user._id, email: user.email };
-          const token = jwt.sign({ user: body }, 'TOP_SECRET');
+          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
+          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
 
-          return res.json({ token, info });
+          return res.json({ accessToken, refreshToken, info });
         },
       );
     },
   )(req, res, next);
+};
+
+// logout user
+exports.logoutUser = async (req, res) => {
+  const { authorization } = req.headers;
+  const bearer = authorization.split(' ');
+  const refreshToken = bearer[1];
+  const { exp } = jwt.decode(refreshToken);
+
+  try {
+    await new Blacklist({
+      refreshToken,
+      expireAt: new Date(exp * 1000),
+
+    })
+      .save();
+    return res
+      .status(201)
+      .json({ message: 'logged out' });
+  }catch(err) {
+    checkMongoError(err);
+    throw err;
+  }
+};
+
+// refresh access token
+exports.refreshUser = (req, res) => {
+  const { user } = req;
+  const body = { _id: user._id, email: user.email };
+  const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
+
+  return res.json({ accessToken });
 };
