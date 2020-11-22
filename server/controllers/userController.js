@@ -3,10 +3,7 @@ const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const dotenv = require('dotenv');
 const token = require('../utils/createToken');
-
-dotenv.config();
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {

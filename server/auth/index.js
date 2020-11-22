@@ -4,10 +4,7 @@ const User = require('../models/user');
 const Blacklist = require('../models/blacklist');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-const dotenv = require('dotenv');
 const createError = require('http-errors');
-
-dotenv.config();
 
 passport.use(
   'login',
