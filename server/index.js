@@ -1,3 +1,5 @@
+console.log(`secrets are valid: ${checkForSecrets()}`);
+
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
@@ -11,8 +13,6 @@ const checkForSecrets = () => {
     return false;
   }
 };
-
-console.log(`secrets are valid: ${checkForSecrets()}`);
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
