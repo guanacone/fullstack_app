@@ -37,7 +37,17 @@ gatsby.prepare({ app }, () => {
       .json({ message: 'Internal server error' });
   });
 });
+const checkForSecrets = () => {
+  if (process.env.TOKEN_SECRET.length > 0 && process.env.REFRESH_TOKEN_SECRET.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const port = process.env.PORT || 1337;
 
-app.listen(port, () => console.log(`listening on port ${port}`));
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
+  console.log(`secrets are valid: ${checkForSecrets()}`);
+});
