@@ -1,4 +1,4 @@
-
+console.log(`env var: ${process.env.TOKEN_SECRET} and ${process.env.REFRESH_TOKEN_SECRET}`);
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
