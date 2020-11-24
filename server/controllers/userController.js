@@ -106,8 +106,8 @@ exports.loginUser = async (req, res, next) => {
           if (err) return next(err);
 
           const body = { _id: user._id, email: user.email };
-          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
-          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
+          const accessToken = token.createToken(body, 'token_secret', 120);
+          const refreshToken = token.createToken(body, 'refresh_token_secret', '1y');
 
           return res.json({ accessToken, refreshToken, info });
         },
@@ -143,7 +143,7 @@ exports.logoutUser = async (req, res) => {
 exports.refreshUser = (req, res) => {
   const { user } = req;
   const body = { _id: user._id, email: user.email };
-  const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
+  const accessToken = jwt.sign({ user: body }, 'token_secret', { expiresIn: 120 });
 
   return res.json({ accessToken });
 };

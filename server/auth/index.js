@@ -38,7 +38,7 @@ passport.use(
   'access token',
   new JWTstrategy(
     {
-      secretOrKey: process.env.TOKEN_SECRET,
+      secretOrKey: 'token_secret',
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
     async (token, done) => {
@@ -55,7 +55,7 @@ passport.use(
   'refresh token',
   new JWTstrategy(
     {
-      secretOrKey: process.env.REFRESH_TOKEN_SECRET,
+      secretOrKey: 'refresh_token_secret',
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       passReqToCallback: true,
     },

@@ -1,18 +1,9 @@
-console.log(`secrets are valid: ${checkForSecrets()}`);
 
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
-
-const checkForSecrets = () => {
-  if (process.env.TOKEN_SECRET.length > 0 && process.env.REFRESH_TOKEN_SECRET.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
+// require('dotenv').config();
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
