@@ -25,6 +25,22 @@ export const handleLogin = async ({ email, password }) => {
   }
 };
 
+export const handleRefreshToken = async () => {
+  try {
+    const user = getUser();
+    const { data } = await Axios({
+      method: 'post',
+      url: `${url}/user/refresh`,
+      headers: { Authorization: `Bearer ${user.refreshToken}` } });
+    setUser({
+      token: data.accessToken,
+      refreshToken: user.refreshToken,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const isLoggedIn = () => {
   const user = getUser();
 
