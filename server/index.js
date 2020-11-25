@@ -1,9 +1,7 @@
-console.log(`env var: ${process.env.TOKEN_SECRET} and ${process.env.REFRESH_TOKEN_SECRET}`);
 const express = require('express');
 const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// require('dotenv').config();
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
