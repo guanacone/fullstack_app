@@ -7,10 +7,10 @@ const Layout = ({ children }) => {
       handleRefreshToken();
       setInterval(handleRefreshToken, 119000);
     }
-  });
+  }, []);
 
   return (
-    <div style={{ color: 'red', margin: '0 auto', maxWidth: 650, padding: '0 1rem' }}>
+    <div>
       {children}
     </div>
   );
