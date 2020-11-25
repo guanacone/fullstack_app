@@ -47,6 +47,15 @@ export const isLoggedIn = () => {
   return !!user.token;
 };
 
-export const logout = () => {
-  setUser({});
+export const logout = async () => {
+  try {
+    const user = getUser();
+    await Axios({
+      method: 'post',
+      url: `${url}/user/refresh`,
+      headers: { Authorization: `Bearer ${user.refreshToken}` } });
+    setUser({});
+  } catch (err) {
+    console.log(err);
+  }
 };
