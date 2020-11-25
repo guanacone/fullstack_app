@@ -5,6 +5,9 @@ const Blacklist = require('../models/blacklist');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const createError = require('http-errors');
+const secrets = require('../utils/getSecret');
+
+const tokenSecrets = secrets.getSecrets();
 
 passport.use(
   'login',
@@ -38,7 +41,7 @@ passport.use(
   'access token',
   new JWTstrategy(
     {
-      secretOrKey: 'token_secret',
+      secretOrKey: tokenSecrets.accessTokenSecret,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
     async (token, done) => {
@@ -55,7 +58,7 @@ passport.use(
   'refresh token',
   new JWTstrategy(
     {
-      secretOrKey: 'refresh_token_secret',
+      secretOrKey: tokenSecrets.refreshTokenSecret,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       passReqToCallback: true,
     },
