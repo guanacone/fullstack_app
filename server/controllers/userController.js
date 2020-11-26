@@ -3,7 +3,8 @@ const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const token = require('../utils/createToken');const secrets = require('../utils/getSecret');
+const token = require('../utils/createToken');
+const secrets = require('../utils/getSecret');
 
 const tokenSecrets = secrets.getSecrets();
 
