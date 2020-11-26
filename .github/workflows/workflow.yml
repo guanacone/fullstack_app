@@ -14,12 +14,6 @@ jobs:
       env: 
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}        
       run: heroku container:login 
-    - name: testing secrets
-      env:
-        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        TOKEN_SECRET: ${{secrets.TOKEN_SECRET}}
-        REFRESH_TOKEN_SECRET: ${{secrets.REFRESH_TOKEN_SECRET}}
-      run: echo 'enn var is:' $TOKEN_SECRET 
     - name: Build and push
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
