@@ -9,7 +9,6 @@ const handleLogout = async (evt) => {
 };
 
 const NavBar = () => {
-  console.log('NavBar');
   return (
     <div>
       <Link to={'/'}>Home</Link>
