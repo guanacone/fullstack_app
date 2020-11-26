@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import NavBar from '../components/NavBar';
 import { isLoggedIn, handleRefreshToken } from '../services/auth';
 
 const Layout = ({ children }) => {
@@ -11,6 +12,7 @@ const Layout = ({ children }) => {
 
   return (
     <div>
+      <NavBar/>
       {children}
     </div>
   );
