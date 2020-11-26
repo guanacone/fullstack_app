@@ -11,20 +11,20 @@ const UserNew = () => {
 
   return (
     <UserForm
-    handleSubmit = {(evt) => handleSubmit({
-      evt,
-      method: 'post',
-      endpoint: 'user',
-      data: {
-        firstName: firstName.value,
-        familyName: familyName.value,
-        email: email.value,
-        password: password.value },
-    })}
-    firstName={firstName}
-    familyName={familyName}
-    email={email}
-    password={password} />
+      handleSubmit = {(evt) => handleSubmit({
+        evt,
+        method: 'post',
+        endpoint: 'user',
+        data: {
+          firstName: firstName.value,
+          familyName: familyName.value,
+          email: email.value,
+          password: password.value },
+      })}
+      firstName={firstName}
+      familyName={familyName}
+      email={email}
+      password={password} />
   );
 };
 

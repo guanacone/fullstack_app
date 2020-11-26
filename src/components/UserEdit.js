@@ -33,25 +33,28 @@ const UserNew = ({ location }) => {
       return (
         <p>{errorContent.message}</p>
       );
-    } if (dataContent) {
+    }
+
+    if (dataContent) {
       return (
         <UserForm
-      handleSubmit = {(evt) => handleSubmit({
-        evt,
-        method: 'put',
-        endpoint: `user/${userID}`,
-        data: {
-          firstName: firstName.value,
-          familyName: familyName.value,
-          email: email.value,
-          password: password.value },
-      })}
-      firstName={firstName}
-      familyName={familyName}
-      email={email}
-      password={password} />
+          handleSubmit = {(evt) => handleSubmit({
+            evt,
+            method: 'put',
+            endpoint: `user/${userID}`,
+            data: {
+              firstName: firstName.value,
+              familyName: familyName.value,
+              email: email.value,
+              password: password.value },
+          })}
+          firstName={firstName}
+          familyName={familyName}
+          email={email}
+          password={password} />
       );
     }
+
     return (
       <p>loading...</p>
     );
