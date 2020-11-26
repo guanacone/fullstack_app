@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn()) {
       handleRefreshToken();
-      setInterval(handleRefreshToken, 119000);
+      setInterval(handleRefreshToken, 60e3 * 2 - 1e3);
     }
   }, []);
 
