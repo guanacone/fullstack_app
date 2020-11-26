@@ -45,21 +45,23 @@ const User = ({ id }) => {
       return (
         <p>{errorContent.message}</p>
       );
-    } if (dataContent) {
+    }
+
+    if (dataContent) {
       return (
         <>
           <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
           <Link
-                  to={`/user/${id}/edit`}
-                >
+            to={`/user/${id}/edit`}
+          >
             Edit
           </Link>
           <DeleteButton
-                  type='button'
-                  onClick={() => deleteUser(`user/${id}`, user.token)}
-                >
+            type='button'
+            onClick={() => deleteUser(`user/${id}`, user.token)}
+          >
             Delete User
           </DeleteButton>
         </>

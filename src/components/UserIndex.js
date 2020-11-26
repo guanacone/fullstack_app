@@ -14,7 +14,9 @@ const UserIndex = () => {
       return (
         <p>{errorContent.message}</p>
       );
-    } if (dataContent) {
+    }
+
+    if (dataContent) {
       return (
         <ul>
           {dataContent.map((user) => (

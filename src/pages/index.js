@@ -16,7 +16,9 @@ const Home = () => {
       return (
         <p>{errorContent.message}</p>
       );
-    } if (dataContent) {
+    }
+
+    if (dataContent) {
       return (
         <p>{dataContent.msg}</p>
       );
