@@ -7,8 +7,6 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const createError = require('http-errors');
 const secrets = require('../utils/getSecret');
 
-const tokenSecrets = secrets.getSecrets();
-
 passport.use(
   'login',
   new localStrategy(
@@ -41,7 +39,7 @@ passport.use(
   'access token',
   new JWTstrategy(
     {
-      secretOrKey: tokenSecrets.accessTokenSecret,
+      secretOrKey: secrets.accessTokenSecret,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
     async (token, done) => {
@@ -58,7 +56,7 @@ passport.use(
   'refresh token',
   new JWTstrategy(
     {
-      secretOrKey: tokenSecrets.refreshTokenSecret,
+      secretOrKey: secrets.refreshTokenSecret,
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       passReqToCallback: true,
     },
