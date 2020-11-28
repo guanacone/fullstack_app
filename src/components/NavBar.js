@@ -1,5 +1,6 @@
 import { Link, navigate } from 'gatsby';
 import React from 'react';
+import styled from 'styled-components';
 import { isLoggedIn, logout } from '../services/auth';
 
 const handleLogout = async (evt) => {
@@ -8,24 +9,32 @@ const handleLogout = async (evt) => {
   navigate('/login');
 };
 
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: black solid 1px;
+
+  > a{
+    padding: 10px;
+  }
+`;
+
 const NavBar = () => {
   return (
-    <div>
+    <Header>
       <Link to={'/'}>Home</Link>
       <br/>
       {isLoggedIn()
         ? <>
           <Link to={'/user'}>User Index</Link>
-          <br/>
           <Link to={'#'} onClick={(evt) => { handleLogout(evt); }}>Log Out</Link>
         </>
         : <>
           <Link to={'/login'}>Log In!</Link>
-          <br/>
           <Link to={'/user/new'}>Sign Up! </Link>
         </>
       }
-    </div>
+    </Header>
   );
 };
 
