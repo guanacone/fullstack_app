@@ -22,14 +22,13 @@ const DeleteButton = styled.button`
   }
 `;
 
-const user = getUser();
-
-const deleteUser = async (endpoint, token) => {
+const deleteUser = async (endpoint) => {
   if (window.confirm('Do you want to delete the user?')) {
+    const user = getUser();
     await axios({
       method: 'delete',
       url: endpoint,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${user.token}` },
     });
     navigate('/user');
   }
@@ -39,6 +38,7 @@ const User = ({ id }) => {
   if (!isLoggedIn()) {
     navigate('/login');
   }
+
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}` });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -60,7 +60,7 @@ const User = ({ id }) => {
           </Link>
           <DeleteButton
             type='button'
-            onClick={() => deleteUser(`user/${id}`, user.token)}
+            onClick={() => deleteUser(`user/${id}`)}
           >
             Delete User
           </DeleteButton>
