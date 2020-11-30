@@ -23,7 +23,6 @@ const NavBar = () => {
   return (
     <Header>
       <Link to={'/'}>Home</Link>
-      <br/>
       {isLoggedIn()
         ? <>
           <Link to={'/user'}>User Index</Link>
