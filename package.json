@@ -6,7 +6,7 @@
   "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "node server/index.js & gatsby develop",
     "start": "node server/index.js",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
