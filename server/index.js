@@ -18,6 +18,8 @@ app.use(express.json());
 
 require('./auth');
 
+app.use(express.static('public'));
+
 app.get('/api', (req, res) => {
   res.json({ msg: 'Fetching data from API...' });
 });
