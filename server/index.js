@@ -1,9 +1,7 @@
-console.log(`env var: ${process.env.TOKEN_SECRET} and ${process.env.REFRESH_TOKEN_SECRET}`);
-
 const express = require('express');
-const gatsby = require('gatsby-plugin-nodejs');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,23 +18,23 @@ app.use(express.json());
 
 require('./auth');
 
-gatsby.prepare({ app }, () => {
-  app.get('/api', (req, res) => {
-    res.json({ msg: 'Fetching data from API...' });
-  });
-  app.use('/api/user', user);
-  //eslint-disable-next-line no-unused-vars
-  app.use((err, req, res, next) => {
-    console.log(err);
-    if(createHttpError.isHttpError(err)) {
-      return res
-        .status(err.status)
-        .json({ message: err.message });
-    }
+app.use(express.static('public'));
+
+app.get('/api', (req, res) => {
+  res.json({ msg: 'This message is fetched from an API!' });
+});
+app.use('/api/user', user);
+//eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.log(err);
+  if(createHttpError.isHttpError(err)) {
     return res
-      .status(500)
-      .json({ message: 'Internal server error' });
-  });
+      .status(err.status)
+      .json({ message: err.message });
+  }
+  return res
+    .status(500)
+    .json({ message: 'Internal server error' });
 });
 
 
