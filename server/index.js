@@ -21,7 +21,7 @@ require('./auth');
 app.use(express.static('public'));
 
 app.get('/api', (req, res) => {
-  res.json({ msg: 'Fetching data from API...' });
+  res.json({ msg: 'This message was fetched from an API!' });
 });
 app.use('/api/user', user);
 //eslint-disable-next-line no-unused-vars
