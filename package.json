@@ -31,6 +31,7 @@
     "http-errors": "1.8.0",
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.10.5",
+    "nodemailer": "6.4.16",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
