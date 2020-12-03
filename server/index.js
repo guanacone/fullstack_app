@@ -10,6 +10,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const user = require('./routes/user');
 const createHttpError = require('http-errors');
+const { sendEmail } = require('./utils/sendEmail');
 
 const app = express();
 
@@ -22,6 +23,10 @@ app.use(express.static('public'));
 
 app.get('/api', (req, res) => {
   res.json({ msg: 'This message is fetched from an API!' });
+});
+app.get('/api/email', (req, res) => {
+  sendEmail('admin@buenaondaresort.com', 'token example 007');
+  res.json({ msg: 'confirm email' });
 });
 app.use('/api/user', user);
 //eslint-disable-next-line no-unused-vars
