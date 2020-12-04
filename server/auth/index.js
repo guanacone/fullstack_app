@@ -94,7 +94,6 @@ passport.use(
       try {
         return done(null, token.user);
       } catch (error) {
-        console.log(error);
         done(error);
       }
     },
