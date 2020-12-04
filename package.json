@@ -30,6 +30,7 @@
     "gatsby-plugin-styled-components": "3.3.12",
     "http-errors": "1.8.0",
     "jsonwebtoken": "8.5.1",
+    "mailgun-js": "0.22.0",
     "mongoose": "5.10.5",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
