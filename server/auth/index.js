@@ -29,6 +29,10 @@ passport.use(
           return done(false, { status: 401, message: 'Unactivated account' });
         }
 
+        if (!user.isActivated) {
+          return done(false, { status: 401, message: 'Please confirm your account' });
+        }
+
         return done(user, { message: 'Logged in Successfully' });
       } catch (error) {
         return done(error);
