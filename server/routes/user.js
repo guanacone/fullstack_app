@@ -6,9 +6,11 @@ const asyncHandler = require('express-async-handler');
 
 const passportAuthAccessToken = passport.authenticate('access token', { session: false });
 const passportAuthRefreshToken = passport.authenticate('refresh token', { session: false });
+const passportAuthActivationToken = passport.authenticate('activation token', { session: false });
 
 router.get('/', passportAuthAccessToken, asyncHandler(userController.indexUser));
 router.post('/', asyncHandler(userController.createUser));
+router.post('/activate_account', passportAuthActivationToken, asyncHandler(userController.activateAccount));
 router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser));
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
 router.delete('/:id', passportAuthAccessToken, asyncHandler(userController.destroyUser));
