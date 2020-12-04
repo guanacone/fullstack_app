@@ -47,6 +47,25 @@ exports.createUser = async (req, res) => {
   }
 };
 
+//activate account
+exports.activateAccount = async(req, res, next) => {
+  try {
+    const userinstance = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        isActivated: true,
+      },
+      { new: true },
+    );
+    if (userinstance === null) {
+      throw createError(404, 'User not found');
+    }
+    return res.json(userinstance);
+  } catch(err) {
+    next(checkMongoError(err));
+  }
+};
+
 // show user
 exports.showUser = async (req, res) => {
   const userinstance = await User.findById(req.params.id);
