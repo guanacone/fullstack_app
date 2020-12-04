@@ -8,6 +8,7 @@ const UserSchema = new Schema(
     familyName: { type: String, required: true, maxlength: 15 },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    isActivated: { type: Boolean, default: false },
   },
 );
 
