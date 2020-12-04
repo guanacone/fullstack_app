@@ -78,3 +78,20 @@ passport.use(
     },
   ),
 );
+
+passport.use(
+  'activation token',
+  new JWTstrategy(
+    {
+      secretOrKey: process.env.EMAIL_CONFIRMATION_TOKEN_SECRET,
+      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('token'),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    },
+  ),
+);
