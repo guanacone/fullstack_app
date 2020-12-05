@@ -81,8 +81,6 @@ passport.use(
     },
   ),
 );
-console.log(`ExtractJWTBaerer: ${ExtractJWT.fromAuthHeaderAsBearerToken()}`);
-console.log(`ExtractJWTParam: ${ExtractJWT.fromUrlQueryParameter('token')}`);
 
 passport.use(
   'activation token',
