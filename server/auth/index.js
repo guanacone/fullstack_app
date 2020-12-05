@@ -83,7 +83,7 @@ passport.use(
   'activation token',
   new JWTstrategy(
     {
-      secretOrKey: process.env.EMAIL_CONFIRMATION_TOKEN_SECRET,
+      secretOrKey: process.env.CONFIRMATION_TOKEN_SECRET,
       jwtFromRequest: ExtractJWT.fromUrlQueryParameter('token'),
     },
     async (token, done) => {
