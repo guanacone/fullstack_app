@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { navigate } from 'gatsby';
 import isBrowser from '../utils/isBrowser';
 
 export const getUser = () => {
@@ -18,8 +19,9 @@ export const handleLogin = async ({ email, password }) => {
       token: data.accessToken,
       refreshToken: data.refreshToken,
     });
+    navigate('/user');
   } catch (err) {
-    console.log(err);
+    console.log('err.response');
   }
 };
 
