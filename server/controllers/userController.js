@@ -138,13 +138,13 @@ exports.loginUser = async (req, res, next) => {
             return res
               .status(200)
               .json({ user, message: 'User not activated', info });
+          } else {
+
+            const body = { _id: user._id, email: user.email };
+            const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
+            const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
+            return res.json({ accessToken, refreshToken, info });
           }
-
-          const body = { _id: user._id, email: user.email };
-          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
-          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
-
-          return res.json({ accessToken, refreshToken, info });
         },
       );
     },
