@@ -4,6 +4,8 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const token = require('../utils/createToken');
+const { sendEmail } = require('../utils/sendEmail');
+
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -38,6 +40,15 @@ exports.createUser = async (req, res) => {
       password: req.body.password,
     })
       .save();
+    const body = { _id: newUser._id, email: newUser.email };
+    const activationToken = token.createToken(body, process.env.CONFIRMATION_TOKEN_SECRET, '1d');
+    const data = {
+      from: 'account_activation@sandboxfc5e54316a7244c1b1b13fe82614124c.mailgun.org',
+      to: 'gilles.rusca@gmail.com',
+      subject: 'Activate your account',
+      html: `<a href=http://localhost:1337/api/user/activate_account?token=${activationToken}>Activate your account</a>`,
+    };
+    sendEmail(data);
     return res
       .status(201)
       .json(newUser);
@@ -123,6 +134,11 @@ exports.loginUser = async (req, res, next) => {
         { session: false },
         async (err) => {
           if (err) return next(err);
+          if (!user.isActivated) {
+            return res
+              .status(200)
+              .json({ user, message: 'User not activated', info });
+          }
 
           const body = { _id: user._id, email: user.email };
           const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
