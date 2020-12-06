@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { navigate } from 'gatsby';
 import url from '../utils/url';
 
 export const isBrowser = () => typeof window !== 'undefined';
@@ -15,13 +16,16 @@ export const handleLogin = async ({ email, password }) => {
     const { data } = await Axios({
       method: 'post',
       url: `${url}/user/login`,
-      data: { email, password } });
+      data: { email, password },
+    });
+    if (data.user) return navigate('/redirect');
     setUser({
       token: data.accessToken,
       refreshToken: data.refreshToken,
     });
+    navigate('/user');
   } catch (err) {
-    console.log(err);
+    console.log('err.response');
   }
 };
 

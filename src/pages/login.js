@@ -3,11 +3,11 @@ import { navigate } from 'gatsby';
 import { handleLogin, isLoggedIn } from '../services/auth';
 import useInput from '../hooks/useInput';
 
-const handleSubmit = async (evt, { email, password }) => {
-  evt.preventDefault();
-  await handleLogin({ email, password });
-  return isLoggedIn() ? navigate('/user') : alert('wrong email/password');
-};
+// const handleSubmit = async (evt, { email, password }) => {
+//   evt.preventDefault();
+//   await handleLogin({ email, password });
+//   return isLoggedIn() ? navigate('/user') : alert('wrong email/password');
+// };
 
 const Login = () => {
   const email = useInput('');
@@ -19,7 +19,8 @@ const Login = () => {
 
   return (
     <form onSubmit={(evt) => {
-      handleSubmit(evt, { email: email.value, password: password.value });
+      evt.preventDefault();
+      handleLogin({ email: email.value, password: password.value });
     }}>
       <label>
         Email:
