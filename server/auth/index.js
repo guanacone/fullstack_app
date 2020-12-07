@@ -23,7 +23,11 @@ passport.use(
         const validate = await user.isValidPassword(password);
 
         if (!validate) {
-          return done(false, { status: 401, message: 'Wrong Password' });
+          return done(false, { status: 401, message: 'Wrong password' });
+        }
+
+        if (!user.isActivated) {
+          return done(false, { status: 401, message: 'Unactivated account' });
         }
 
         return done(user, { message: 'Logged in Successfully' });
