@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Redirect = () => {
+const activateAccount = () => {
   return (
     <div>
       <h1>Please validate your account</h1>
@@ -8,4 +8,4 @@ const Redirect = () => {
   );
 };
 
-export default Redirect;
+export default activateAccount;
