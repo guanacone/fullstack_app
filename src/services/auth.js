@@ -21,7 +21,9 @@ export const handleLogin = async ({ email, password }) => {
     });
     navigate('/user');
   } catch (err) {
-    console.log(err.response);
+    console.log(err.response.data.message);
+    if (err.response.data.message === 'Unactivated account') return navigate('/activateAccount');
+    return alert('Invalid email/password combination');
   }
 };
 
