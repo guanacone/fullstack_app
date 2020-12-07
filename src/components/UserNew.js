@@ -19,7 +19,9 @@ const UserNew = () => {
           firstName: firstName.value,
           familyName: familyName.value,
           email: email.value,
-          password: password.value },
+          password: password.value,
+        },
+        destination: '/activateAccount',
       })}
       firstName={firstName}
       familyName={familyName}
