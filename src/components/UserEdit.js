@@ -46,7 +46,9 @@ const UserNew = ({ location }) => {
               firstName: firstName.value,
               familyName: familyName.value,
               email: email.value,
-              password: password.value },
+              password: password.value,
+            },
+            destination: `/user/${userID}`,
           })}
           firstName={firstName}
           familyName={familyName}
