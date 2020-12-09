@@ -85,11 +85,13 @@ passport.use(
     {
       secretOrKey: process.env.CONFIRMATION_TOKEN_SECRET,
       jwtFromRequest: ExtractJWT.fromUrlQueryParameter('token'),
+      ignoreExpiration: true,
     },
     async (token, done) => {
       try {
         return done(null, token.user);
       } catch (error) {
+        console.log(error);
         done(error);
       }
     },
