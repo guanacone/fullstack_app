@@ -3,8 +3,8 @@ const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const token = require('../utils/createToken');
 const { sendEmail } = require('../utils/sendEmail');
+const tokenUtil = require('../utils/tokenUtil');
 
 
 const checkMongoError = (ex) => {
@@ -41,7 +41,7 @@ exports.createUser = async (req, res) => {
     })
       .save();
     const body = { _id: newUser._id, email: newUser.email };
-    const activationToken = token.createToken(body, process.env.CONFIRMATION_TOKEN_SECRET, '1d');
+    const activationToken = jwt.sign(body, process.env.CONFIRMATION_TOKEN_SECRET, 10);
     const data = {
       from: 'account_activation@rusca.dev',
       to: 'gilles.rusca@gmail.com',
@@ -60,6 +60,7 @@ exports.createUser = async (req, res) => {
 
 //activate account
 exports.activateAccount = async(req, res) => {
+  if (tokenUtil.isTokenExpired(req)) throw createError(401, 'Expired activation token');
   try {
     const userinstance = await User.findByIdAndUpdate(
       req.user._id,
@@ -136,8 +137,8 @@ exports.loginUser = async (req, res, next) => {
         async (err) => {
           if (err) return next(err);
           const body = { _id: user._id, email: user.email };
-          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
-          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
+          const accessToken = jwt.sign(body, process.env.TOKEN_SECRET, 120);
+          const refreshToken = jwt.sign(body, process.env.REFRESH_TOKEN_SECRET, '1y');
           return res.json({ accessToken, refreshToken, info });
         },
       );
