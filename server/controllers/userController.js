@@ -43,12 +43,12 @@ exports.createUser = async (req, res) => {
     const body = { _id: newUser._id, email: newUser.email };
     const activationToken = token.createToken(body, process.env.CONFIRMATION_TOKEN_SECRET, '1d');
     const data = {
-      from: 'account_activation@sandboxfc5e54316a7244c1b1b13fe82614124c.mailgun.org',
+      from: 'account_activation@rusca.dev',
       to: 'gilles.rusca@gmail.com',
       subject: 'Activate your account',
       html: `<a href=http://localhost:1337/api/user/activate_account?token=${activationToken}>Activate your account</a>`,
     };
-    sendEmail(data);
+    await sendEmail(data);
     return res
       .status(201)
       .json(newUser);
