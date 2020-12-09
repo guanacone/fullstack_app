@@ -59,7 +59,7 @@ exports.createUser = async (req, res) => {
 };
 
 //activate account
-exports.activateAccount = async(req, res, next) => {
+exports.activateAccount = async(req, res) => {
   try {
     const userinstance = await User.findByIdAndUpdate(
       req.user._id,
@@ -73,7 +73,8 @@ exports.activateAccount = async(req, res, next) => {
     }
     return res.json(userinstance);
   } catch(err) {
-    next(checkMongoError(err));
+    checkMongoError(err);
+    throw err;
   }
 };
 
