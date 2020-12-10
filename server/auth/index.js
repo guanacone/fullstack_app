@@ -25,7 +25,7 @@ passport.use(
         if (!validate) {
           return done(false, { status: 401, message: 'Wrong password' });
         }
-
+        console.log('user obj: ',user);
         if (!user.isActivated) {
           return done(false, { status: 401, message: 'Unactivated account' });
         }
