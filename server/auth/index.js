@@ -14,8 +14,10 @@ passport.use(
       passwordField: 'password',
     },
     async (email, password, done) => {
+      console.log('inside login');
       try {
         const user = await User.findOne({ email });
+        console.log('user obj: ',user);
         if (!user) {
           return done(false, { status: 404, message: 'User not found' });
         }
