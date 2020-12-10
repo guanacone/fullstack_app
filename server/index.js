@@ -1,3 +1,4 @@
+console.log('app name: ', process.env.HEROKU_APP_NAME, 'host: ', process.env.HOST);
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -40,5 +41,6 @@ app.use((err, req, res, next) => {
 
 
 const port = process.env.PORT || 1337;
+
 
 app.listen(port, () => console.log(`listening on port ${port}`));
