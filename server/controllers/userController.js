@@ -41,7 +41,7 @@ exports.createUser = async (req, res) => {
     })
       .save();
     const body = { _id: newUser._id, email: newUser.email };
-    const activationToken = jwt.sign(body, process.env.CONFIRMATION_TOKEN_SECRET, 10);
+    const activationToken = jwt.sign(body, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '1d' });
     const data = {
       from: 'account_activation@rusca.dev',
       to: 'gilles.rusca@gmail.com',
@@ -137,8 +137,8 @@ exports.loginUser = async (req, res, next) => {
         async (err) => {
           if (err) return next(err);
           const body = { _id: user._id, email: user.email };
-          const accessToken = jwt.sign(body, process.env.TOKEN_SECRET, 120);
-          const refreshToken = jwt.sign(body, process.env.REFRESH_TOKEN_SECRET, '1y');
+          const accessToken = jwt.sign(body, process.env.TOKEN_SECRET, { expiresIn: 120 });
+          const refreshToken = jwt.sign(body, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
           return res.json({ accessToken, refreshToken, info });
         },
       );
