@@ -24,6 +24,7 @@ export const handleLogin = async ({ email, password }) => {
       refreshToken: data.refreshToken,
     });
     navigate('/user');
+    console.log('api response: ', data);
   } catch (err) {
     const axiosMsg = get(err, ['response', 'data', 'message']);
     console.error(err, axiosMsg);
