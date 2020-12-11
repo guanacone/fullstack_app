@@ -1,3 +1,4 @@
+console.log('app name: ', process.env.HEROKU_APP_NAME, 'host: ', process.env.HOST);
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -21,6 +22,7 @@ require('./auth');
 app.use(express.static('public'));
 
 app.get('/api', (req, res) => {
+  console.log(`heroku appp name ${process.env.HEROKU_APP_NAME}`);
   res.json({ msg: 'This message is fetched from an API!' });
 });
 app.use('/api/user', user);
@@ -39,5 +41,6 @@ app.use((err, req, res, next) => {
 
 
 const port = process.env.PORT || 1337;
+
 
 app.listen(port, () => console.log(`listening on port ${port}`));
