@@ -22,7 +22,7 @@ require('./auth');
 app.use(express.static('public'));
 
 app.get('/api', (req, res) => {
-  console.log('checking log');
+  console.log(`heroku appp name ${process.env.HEROKU_APP_NAME}`);
   res.json({ msg: 'This message is fetched from an API!' });
 });
 app.use('/api/user', user);
