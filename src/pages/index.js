@@ -23,6 +23,7 @@ const Home = () => {
   return (
     <div>
       <h1>Message:{getContent(data, error)}</h1>
+      <p>An app by: Gilles Rusca</p>
     </div>
   );
 };
