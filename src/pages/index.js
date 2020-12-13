@@ -2,6 +2,7 @@ import React from 'react';
 import useFetchAPI from '../hooks/useFetchAPI';
 
 const Home = () => {
+  console.log(`app name: ${process.env.HEROKU_APP_NAME}`);
   const { data, error } = useFetchAPI({ url: '' });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
