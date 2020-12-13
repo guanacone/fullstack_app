@@ -9,8 +9,10 @@ RUN npm install -g gatsby-cli && gatsby telemetry --disable
 COPY package.json .
 
 RUN npm install --production
+ARG HEROKU_APP_NAME
+RUN echo "HEROKU_APP_NAME=$HEROKU_APP_NAME" > .env.production
 
-COPY . .
+COPY . . 
 
 # bundle app
 RUN npm run build
