@@ -4,8 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const { sendEmail } = require('../utils/sendEmail');
-const tokenUtil = require('../utils/tokenUtil');
-
+const { extractTokenFromHeader, isTokenExpired } = require('../utils/tokenUtil');
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -22,7 +21,6 @@ const checkMongoError = (ex) => {
     throw createError(400, 'email already registered');
   }
 };
-
 
 // index of all users
 exports.indexUser = async (req, res) => {
@@ -60,7 +58,7 @@ exports.createUser = async (req, res) => {
 
 //activate account
 exports.activateAccount = async(req, res) => {
-  if (tokenUtil.isTokenExpired(req)) throw createError(401, 'Expired activation token');
+  if (isTokenExpired(req)) throw createError(401, 'Expired activation token');
   try {
     const userinstance = await User.findByIdAndUpdate(
       req.user._id,
@@ -148,9 +146,7 @@ exports.loginUser = async (req, res, next) => {
 
 // logout user
 exports.logoutUser = async (req, res) => {
-  const { authorization } = req.headers;
-  const bearer = authorization.split(' ');
-  const refreshToken = bearer[1];
+  const refreshToken = extractTokenFromHeader(req);
   const { exp } = jwt.decode(refreshToken);
 
   try {
