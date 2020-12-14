@@ -39,17 +39,17 @@ exports.createUser = async (req, res) => {
     })
       .save();
     const body = { _id: newUser._id, email: newUser.email };
-    const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '1d' });
+    const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: 10 });
     const data = {
       from: 'account_activation@rusca.dev',
-      to: 'gilles.rusca@gmail.com',
+      to: newUser.email,
       subject: 'Activate your account',
       html: `<a href=http://localhost:1337/api/user/activate_account?token=${activationToken}>Activate your account</a>`,
     };
     await sendEmail(data);
     return res
       .status(201)
-      .json(newUser);
+      .json({ newUser });
   } catch(err) {
     checkMongoError(err);
     throw err;
@@ -59,22 +59,17 @@ exports.createUser = async (req, res) => {
 //activate account
 exports.activateAccount = async(req, res) => {
   if (isTokenExpired(req)) throw createError(401, 'Expired activation token');
-  try {
-    const userinstance = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        isActivated: true,
-      },
-      { new: true },
-    );
-    if (userinstance === null) {
-      throw createError(404, 'User not found');
-    }
-    return res.json(userinstance);
-  } catch(err) {
-    checkMongoError(err);
-    throw err;
+  const userinstance = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      isActivated: true,
+    },
+    { new: true },
+  );
+  if (userinstance === null) {
+    throw createError(404, 'User not found');
   }
+  return res.json(userinstance);
 };
 
 // show user
@@ -148,21 +143,15 @@ exports.loginUser = async (req, res, next) => {
 exports.logoutUser = async (req, res) => {
   const refreshToken = extractTokenFromHeader(req);
   const { exp } = jwt.decode(refreshToken);
+  await new Blacklist({
+    refreshToken,
+    expireAt: new Date(exp * 1000),
 
-  try {
-    await new Blacklist({
-      refreshToken,
-      expireAt: new Date(exp * 1000),
-
-    })
-      .save();
-    return res
-      .status(201)
-      .json({ message: 'logged out' });
-  }catch(err) {
-    checkMongoError(err);
-    throw err;
-  }
+  })
+    .save();
+  return res
+    .status(201)
+    .json({ message: 'logged out' });
 };
 
 // refresh access token
