@@ -2,7 +2,7 @@ import React from 'react';
 import useFetchAPI from '../hooks/useFetchAPI';
 
 const Home = () => {
-  const { data, error } = useFetchAPI({ url: '' });
+  const { data, error } = useFetchAPI();
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (
