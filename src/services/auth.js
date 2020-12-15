@@ -38,7 +38,7 @@ export const handleRefreshToken = async () => {
     const user = getUser();
     const { data } = await Axios({
       method: 'post',
-      url: `${url}/user/refresh`,
+      url: '/user/refresh',
       headers: { Authorization: `Bearer ${user.refreshToken}` } });
     setUser({
       token: data.accessToken,
@@ -60,7 +60,7 @@ export const logout = async () => {
     const user = getUser();
     await Axios({
       method: 'post',
-      url: `${url}/user/logout`,
+      url: '/user/logout',
       headers: { Authorization: `Bearer ${user.refreshToken}` } });
     setUser({});
   } catch (err) {
