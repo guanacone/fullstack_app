@@ -1,9 +1,7 @@
 import React from 'react';
 import useFetchAPI from '../hooks/useFetchAPI';
-import { isBrowser } from '../services/auth';
 
 const Home = () => {
-  if (isBrowser()) console.log(`hostname: ${window.location.host}`);
   const { data, error } = useFetchAPI({ url: '' });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
