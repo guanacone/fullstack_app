@@ -1,9 +1,7 @@
 import React from 'react';
 import useFetchAPI from '../hooks/useFetchAPI';
-import url from '../utils/url';
 
 const Home = () => {
-  console.log(url);
   const { data, error } = useFetchAPI({ endpoint: '' });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
