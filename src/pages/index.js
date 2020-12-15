@@ -1,8 +1,9 @@
 import React from 'react';
 import useFetchAPI from '../hooks/useFetchAPI';
+import { isBrowser } from '../services/auth';
 
 const Home = () => {
-  console.log(`app name: ${process.env.HEROKU_APP_NAME}`);
+  if (isBrowser()) console.log(`hostname: ${window.location.host}`);
   const { data, error } = useFetchAPI({ url: '' });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
