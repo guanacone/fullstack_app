@@ -14,7 +14,7 @@ const UserNew = () => {
       handleSubmit = {(evt) => handleSubmit({
         evt,
         method: 'post',
-        endpoint: 'user',
+        endpoint: '/user',
         data: {
           firstName: firstName.value,
           familyName: familyName.value,
