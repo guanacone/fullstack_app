@@ -4,15 +4,16 @@ import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import useFetchAPI from '../hooks/useFetchAPI';
 import handleSubmit from '../utils/handleSubmit';
-import { isLoggedIn } from '../services/auth';
+import { isLoggedIn, getUser } from '../services/auth';
 
 const UserNew = ({ location }) => {
   if (!isLoggedIn()) {
     navigate('/login');
   }
 
+  const user = getUser();
   const userID = location.pathname.split('/')[2];
-  const { data, error } = useFetchAPI({ endpoint: `/user/${userID}` });
+  const { data, error } = useFetchAPI({ endpoint: `/user/${userID}`, token: user.token });
   const firstName = useInput('');
   const familyName = useInput('');
   const email = useInput('');

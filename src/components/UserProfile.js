@@ -39,7 +39,8 @@ const User = ({ id }) => {
     navigate('/login');
   }
 
-  const { data, error } = useFetchAPI({ endpoint: `/user/${id}` });
+  const user = getUser();
+  const { data, error } = useFetchAPI({ endpoint: `/user/${id}`, token: user.token });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
       return (
