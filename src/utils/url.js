@@ -1,4 +1,4 @@
-export const isBrowser = () => typeof window !== 'undefined';
+import { isBrowser } from '../services/auth';
 
 const { NODE_ENV } = process.env;
 
