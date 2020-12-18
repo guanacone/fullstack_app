@@ -21,10 +21,10 @@ const UserIndex = () => {
     if (dataContent) {
       return (
         <ul>
-          {dataContent.map((user) => (
+          {dataContent.map((profile) => (
             <li key={user._id}>
-              <Link to={`/user/${user._id}`}>
-                {user.familyName}, {user.firstName}
+              <Link to={`/user/${profile._id}`}>
+                {profile.familyName}, {profile.firstName}
               </Link>
             </li>
           ))}
