@@ -1,7 +1,6 @@
 import Axios from 'axios';
+import isBrowser from '../utils/isBrowser';
 import url from '../utils/url';
-
-export const isBrowser = () => typeof window !== 'undefined';
 
 export const getUser = () => {
   const user = isBrowser() && window.localStorage.getItem('gatsbyUser');

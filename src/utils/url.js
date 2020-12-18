@@ -1,4 +1,4 @@
-import { isBrowser } from '../services/auth';
+import isBrowser from './isBrowser';
 
 const { NODE_ENV } = process.env;
 
