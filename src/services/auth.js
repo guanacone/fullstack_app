@@ -51,7 +51,7 @@ export const logout = async () => {
     const user = getUser();
     await Axios({
       method: 'post',
-      url: `${url}/user/logout`,
+      url: '/user/logout',
       headers: { Authorization: `Bearer ${user.refreshToken}` } });
     setUser({});
   } catch (err) {
