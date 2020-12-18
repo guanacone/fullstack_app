@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, navigate } from 'gatsby';
 import useFetchAPI from '../hooks/useFetchAPI';
-import { isBrowser, isLoggedIn } from '../services/auth';
+import { isLoggedIn } from '../services/auth';
+import isBrowser from '../utils/isBrowser';
 
 const UserIndex = () => {
   if (isBrowser() && !isLoggedIn()) {
