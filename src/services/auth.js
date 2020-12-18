@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import isBrowser from '../utils/isBrowser';
-import url from '../utils/url';
 
 export const getUser = () => {
   const user = isBrowser() && window.localStorage.getItem('gatsbyUser');
@@ -13,7 +12,7 @@ export const handleLogin = async ({ email, password }) => {
   try {
     const { data } = await Axios({
       method: 'post',
-      url: `${url}/user/login`,
+      url: '/user/login',
       data: { email, password } });
     setUser({
       token: data.accessToken,
@@ -29,7 +28,7 @@ export const handleRefreshToken = async () => {
     const user = getUser();
     const { data } = await Axios({
       method: 'post',
-      url: `${url}/user/refresh`,
+      url: '/user/refresh',
       headers: { Authorization: `Bearer ${user.refreshToken}` } });
     setUser({
       token: data.accessToken,
