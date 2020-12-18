@@ -39,7 +39,7 @@ exports.createUser = async (req, res) => {
     })
       .save();
     const body = { _id: newUser._id, email: newUser.email };
-    const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: 10 });
+    const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '7d' });
     const data = {
       from: 'account_activation@rusca.dev',
       to: newUser.email,
