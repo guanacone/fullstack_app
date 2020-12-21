@@ -10,5 +10,5 @@ exports.extractTokenFromHeader = (req) => {
 exports.isTokenExpired = (req) => {
   const token = this.extractTokenFromHeader(req);
   const { exp } = jwt.decode(token);
-  return ((exp * 1e3) < Date.now()) ? true : null;
+  return (exp * 1e3) < Date.now();
 };
