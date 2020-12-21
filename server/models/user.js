@@ -9,6 +9,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isActivated: { type: Boolean, default: false },
+    expireAt: { type: Date, default: null },
   },
 );
 
@@ -28,5 +29,7 @@ UserSchema.methods.isValidPassword = async function(password) {
 
   return compare;
 };
+
+UserSchema.index({ expireAt: 1 }, { expireAfterSeconds : 0 });
 
 module.exports = mongoose.model('User', UserSchema);
