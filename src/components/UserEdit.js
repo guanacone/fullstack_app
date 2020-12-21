@@ -17,7 +17,6 @@ const UserNew = ({ location }) => {
   const firstName = useInput('');
   const familyName = useInput('');
   const email = useInput('');
-  const password = useInput('');
 
   useEffect(() => {
     if (!data) {
@@ -26,7 +25,6 @@ const UserNew = ({ location }) => {
     firstName.setValue(data.firstName);
     familyName.setValue(data.familyName);
     email.setValue(data.email);
-    password.setValue(data.password);
   }, [data]);
 
   const getContent = (dataContent, errorContent) => {
@@ -47,14 +45,12 @@ const UserNew = ({ location }) => {
               firstName: firstName.value,
               familyName: familyName.value,
               email: email.value,
-              password: password.value,
             },
             destination: `/user/${userID}`,
           })}
           firstName={firstName}
           familyName={familyName}
-          email={email}
-          password={password} />
+          email={email} />
       );
     }
 
