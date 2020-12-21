@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const { sendEmail } = require('../utils/sendEmail');
 const { extractTokenFromHeader, isTokenExpired } = require('../utils/tokenUtil');
-const frontEndURL = require('../utils/fontEndURL');
+const { frontEndURL } = require('../utils/frontEndURL');
+
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
     let errors = {};
@@ -44,7 +45,7 @@ exports.createUser = async (req, res) => {
       from: 'account_activation@rusca.dev',
       to: newUser.email,
       subject: 'Activate your account',
-      html: `<a href=${frontEndURL}/user/user_activation/${activationToken}>Activate your account</a>`,
+      html: `<p>Please <a href=${frontEndURL}/user/user_activation/${activationToken}>activate your account</a> by following the previous link`,
     };
     await sendEmail(data);
     return res
