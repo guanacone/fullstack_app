@@ -41,6 +41,12 @@ exports.createUser = async (req, res) => {
       .save();
     const body = { _id: newUser._id, email: newUser.email };
     const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '7d' });
+    const { exp } = jwt.decode(activationToken);
+    await User.findByIdAndUpdate(
+      newUser._id,
+      {
+        expireAt: new Date(exp * 1000),
+      });
     const data = {
       from: 'account_activation@rusca.dev',
       to: newUser.email,
@@ -64,6 +70,7 @@ exports.activateAccount = async(req, res) => {
     req.user._id,
     {
       isActivated: true,
+      expireAt: null,
     },
     { new: true },
   );
@@ -160,6 +167,5 @@ exports.refreshUser = (req, res) => {
   const { user } = req;
   const body = { _id: user._id, email: user.email };
   const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
-
   return res.json({ accessToken });
 };
