@@ -8,7 +8,6 @@ const useFetchAPI = ({ endpoint, token }) => {
   useEffect(() => {
     (async () => {
       try {
-        // const user = getUser();
         const result = await axios({
           url: endpoint,
           headers: { Authorization: `Bearer ${token}` },
