@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link, navigate } from 'gatsby';
 import get from 'lodash.get';
+import { useQueryParam, StringParam } from 'use-query-params';
 import { isLoggedIn } from '../services/auth';
 import useFetchAPI from '../hooks/useFetchAPI';
 
-const UserActivation = ({ activationToken }) => {
+const UserActivation = () => {
   if (isLoggedIn()) {
     navigate('/user');
   }
+  // eslint-disable-next-line no-unused-vars
+  const [activationToken, setActivationToken] = useQueryParam('activationToken', StringParam);
   const { data, error } = useFetchAPI({ endpoint: '/user/activate_account', token: activationToken });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
