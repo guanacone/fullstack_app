@@ -12,7 +12,7 @@ const User = () => (
     <UserProfile path='/user/:id' />
     <UserNew path='/user/new' />
     <UserEdit path='/user/:id/edit' />
-    <UserActivation path='/user/user_activation' />
+    <UserActivation path='/user/activation' />
   </Router>
 );
 
