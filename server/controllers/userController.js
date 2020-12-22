@@ -37,16 +37,11 @@ exports.createUser = async (req, res) => {
       familyName: req.body.familyName,
       email: req.body.email,
       password: req.body.password,
+      expireAt: new Date(Date.now() + 6.049e8),
     })
       .save();
     const body = { _id: newUser._id, email: newUser.email };
     const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '7d' });
-    const { exp } = jwt.decode(activationToken);
-    await User.findByIdAndUpdate(
-      newUser._id,
-      {
-        expireAt: new Date(exp * 1000),
-      });
     const data = {
       from: 'account_activation@rusca.dev',
       to: newUser.email,
