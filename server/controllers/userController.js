@@ -109,6 +109,21 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
+// update password
+exports.updatePassword = async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id });
+  if(user === null) {
+    throw createError(404, 'User not found');
+  }
+  // const oldPassword = req.body.oldPassword;
+  const validate = await user.isValidPassword('food12');
+
+  if(!validate) {
+    throw createError(401, 'Old password does not match');
+  }
+  return res.json({ user });
+};
+
 // destroy user
 exports.destroyUser = async (req, res) => {
   const deletedUser = await User.findByIdAndRemove(req.params.id);
