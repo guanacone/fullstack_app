@@ -1,5 +1,5 @@
 {
     "routes": {
-        "/user/**": "index.html"
+        "/user/**": "public/user/index.html"
     }
 }
