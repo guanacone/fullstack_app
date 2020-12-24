@@ -1,5 +1,6 @@
 {
     "root": "public/",
+    "clean_urls": true,
     "routes": {
         "/user/**": "user/index.html"
     }
