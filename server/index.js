@@ -19,10 +19,10 @@ app.use(express.json());
 
 require('./auth');
 
-app.use(express.static('public/'));
+app.use(express.static('public'));
 app.use(gatsbyExpress('config/gatsby-express.json', {
-  publicDir: 'public/',
-  template: 'public/404/index.html',
+  publicDir: '/public/',
+  template: '/public/404/index.html',
 
   // redirects all /path/ to /path
   // should be used with gatsby-plugin-remove-trailing-slashes
