@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const gatsyExpress = require('gatsby-plugin-express');
 require('dotenv').config();
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
@@ -19,6 +20,14 @@ app.use(express.json());
 require('./auth');
 
 app.use(express.static('public'));
+app.use(gatsyExpress('config/gatsby-express.json', {
+  publicDir: 'public/',
+  template: 'public/404/index.html',
+
+  // redirects all /path/ to /path
+  // should be used with gatsby-plugin-remove-trailing-slashes
+  redirectSlashes: true,
+}));
 
 app.get('/api', (req, res) => {
   res.json({ msg: 'This message is fetched from an API!' });
