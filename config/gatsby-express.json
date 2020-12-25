@@ -1,0 +1,18 @@
+{
+  "redirects": [],
+  "pages": [
+    {
+      "path": "/"
+    },
+    {
+      "path": "/activateAccount"
+    },
+    {
+      "path": "/login"
+    },
+    {
+      "path": "/user",
+      "matchPath": "/user/*"
+    }
+  ]
+}
