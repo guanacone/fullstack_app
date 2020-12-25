@@ -5,12 +5,6 @@
       "path": "/"
     },
     {
-      "path": "/404.html"
-    },
-    {
-      "path": "/404"
-    },
-    {
       "path": "/activateAccount"
     },
     {
@@ -19,6 +13,9 @@
     {
       "path": "/user",
       "matchPath": "/user/*"
+    },
+    {
+      "path": "/404/404"
     }
   ]
 }
