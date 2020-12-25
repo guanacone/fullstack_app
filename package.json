@@ -28,6 +28,7 @@
     "gatsby-plugin-create-client-paths": "2.3.11",
     "gatsby-plugin-express": "1.1.6",
     "gatsby-plugin-layout": "1.4.0",
+    "gatsby-plugin-remove-trailing-slashes": "2.7.0",
     "gatsby-plugin-styled-components": "3.3.12",
     "gatsby-plugin-use-query-params": "1.0.1",
     "http-errors": "1.8.0",
@@ -44,8 +45,7 @@
     "use-query-params": "1.1.9"
   },
   "devDependencies": {
-    "@edwmurph/eslint-config": "0.0.12",
-    "gatsby-plugin-remove-trailing-slashes": "2.7.0"
+    "@edwmurph/eslint-config": "0.0.12"
   },
   "repository": {
     "type": "git",
