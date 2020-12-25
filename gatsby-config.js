@@ -14,5 +14,12 @@ module.exports = {
     },
     'gatsby-plugin-styled-components',
     'gatsby-plugin-use-query-params',
+    'gatsby-plugin-remove-trailing-slashes',
+    {
+      resolve: 'gatsby-plugin-express',
+      options: {
+        output: 'config/gatsby-express.json',
+      },
+    },
   ],
 };
