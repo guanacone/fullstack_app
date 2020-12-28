@@ -112,23 +112,34 @@ exports.updateUser = async (req, res, next) => {
 
 // update password
 exports.updatePassword = async (req, res) => {
-  const user = await User.findOne({ _id: req.params.id });
-  if(user === null) {
+  const hashPassword = async (passwordToHash) => {
+    return await bcrypt.hash(passwordToHash, 10);
+  };
+
+  const newHashedPassword = await hashPassword(req.body.newPassword);
+
+  let user = await User.findById(req.params.id);
+
+  if (user === null) {
     throw createError(404, 'User not found');
   }
-  const oldPassword = req.body.oldPassword;
-  const validate = await user.isValidPassword(oldPassword);
+
+  const validate = await bcrypt.compare(req.body.oldPassword, user.password);
+  console.log({ validate });
 
   if(!validate) {
     throw createError(401, 'Old password does not match');
   }
 
-  const hashedNewPassword = async (passwordToHash) => {
-    return await bcrypt.hash(passwordToHash, 10);
-  };
+  user = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      password: newHashedPassword,
+    },
+    { new: true },
+  );
 
-  user.password = hashedNewPassword(req.body.hashedNewPassword);
-  return res.json({ user });
+  return res.json(user);
 };
 
 
