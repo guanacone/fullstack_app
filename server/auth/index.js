@@ -23,7 +23,10 @@ passport.use(
         const validate = await user.isValidPassword(password);
 
         if (!validate) {
-          return done(false, { status: 401, message: 'Wrong Password' });
+          return done(false, { status: 401, message: 'Wrong password' });
+        }
+        if (!user.isActivated) {
+          return done(false, { status: 401, message: 'Unactivated account' });
         }
 
         return done(user, { message: 'Logged in Successfully' });
@@ -69,6 +72,25 @@ passport.use(
         }
         return done(null, token.user);
       } catch (error) {
+        done(error);
+      }
+    },
+  ),
+);
+
+passport.use(
+  'activation token',
+  new JWTstrategy(
+    {
+      secretOrKey: process.env.CONFIRMATION_TOKEN_SECRET,
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: true,
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        console.log(error);
         done(error);
       }
     },

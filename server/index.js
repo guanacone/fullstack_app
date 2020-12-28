@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const mongoDB = 'mongodb+srv://mogador:basket@cluster0.twty6.mongodb.net/fullstack_app?retryWrites=true&w=majority';
@@ -17,9 +18,10 @@ app.use(cors());
 app.use(express.json());
 
 require('./auth');
-
 app.use(express.static('public'));
-
+app.get('/user/**', (req, res) => {
+  res.sendFile(path.join(`${__dirname}/../public/user/index.html`));
+});
 app.get('/api', (req, res) => {
   res.json({ msg: 'This message is fetched from an API!' });
 });
