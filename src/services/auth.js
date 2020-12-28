@@ -1,4 +1,6 @@
 import Axios from 'axios';
+import { navigate } from 'gatsby';
+import get from 'lodash.get';
 import isBrowser from '../utils/isBrowser';
 
 export const getUser = () => {
@@ -18,8 +20,12 @@ export const handleLogin = async ({ email, password }) => {
       token: data.accessToken,
       refreshToken: data.refreshToken,
     });
+    navigate('/user');
   } catch (err) {
-    console.log(err);
+    const axiosMsg = get(err, ['response', 'data', 'message']);
+    console.error(`error: ${err}, ${axiosMsg}`);
+    if (axiosMsg === 'Unactivated account') return navigate('/activateAccount');
+    return alert('Invalid email/password combination');
   }
 };
 

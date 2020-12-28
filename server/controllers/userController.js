@@ -3,7 +3,9 @@ const Blacklist = require('../models/blacklist');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const token = require('../utils/createToken');
+const { sendEmail } = require('../utils/sendEmail');
+const { extractTokenFromHeader, isTokenExpired } = require('../utils/tokenUtil');
+const { frontEndURL } = require('../utils/frontEndURL');
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -21,7 +23,6 @@ const checkMongoError = (ex) => {
   }
 };
 
-
 // index of all users
 exports.indexUser = async (req, res) => {
   const users = await User.find({}).exec();
@@ -36,14 +37,45 @@ exports.createUser = async (req, res) => {
       familyName: req.body.familyName,
       email: req.body.email,
       password: req.body.password,
+      expireAt: new Date(Date.now() + 6.049e8),
     })
       .save();
+    const body = { _id: newUser._id, email: newUser.email };
+    const activationToken = jwt.sign({ user: body }, process.env.CONFIRMATION_TOKEN_SECRET, { expiresIn: '7d' });
+    const data = {
+      from: 'account_activation@rusca.dev',
+      to: newUser.email,
+      subject: 'Activate your account',
+      html: `<p>Please <a href=${frontEndURL}/user/activation?activationToken=${activationToken}>activate your account</a> by following the previous link`,
+    };
+    await sendEmail(data);
     return res
       .status(201)
-      .json(newUser);
+      .json({ newUser });
   } catch(err) {
     checkMongoError(err);
     throw err;
+  }
+};
+
+//activate account
+exports.activateAccount = async(req, res) => {
+  try {
+    if (isTokenExpired(req)) throw createError(401, 'Expired activation token');
+    const userinstance = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        isActivated: true,
+        expireAt: null,
+      },
+      { new: true },
+    );
+    if (userinstance === null) {
+      throw createError(404, 'User not found');
+    }
+    return res.json(userinstance);
+  } catch(err) {
+    console.log(err);
   }
 };
 
@@ -104,11 +136,9 @@ exports.loginUser = async (req, res, next) => {
         { session: false },
         async (err) => {
           if (err) return next(err);
-
           const body = { _id: user._id, email: user.email };
-          const accessToken = token.createToken(body, process.env.TOKEN_SECRET, 120);
-          const refreshToken = token.createToken(body, process.env.REFRESH_TOKEN_SECRET, '1y');
-
+          const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
+          const refreshToken = jwt.sign({ user: body }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
           return res.json({ accessToken, refreshToken, info });
         },
       );
@@ -118,25 +148,17 @@ exports.loginUser = async (req, res, next) => {
 
 // logout user
 exports.logoutUser = async (req, res) => {
-  const { authorization } = req.headers;
-  const bearer = authorization.split(' ');
-  const refreshToken = bearer[1];
+  const refreshToken = extractTokenFromHeader(req);
   const { exp } = jwt.decode(refreshToken);
+  await new Blacklist({
+    refreshToken,
+    expireAt: new Date(exp * 1000),
 
-  try {
-    await new Blacklist({
-      refreshToken,
-      expireAt: new Date(exp * 1000),
-
-    })
-      .save();
-    return res
-      .status(201)
-      .json({ message: 'logged out' });
-  }catch(err) {
-    checkMongoError(err);
-    throw err;
-  }
+  })
+    .save();
+  return res
+    .status(201)
+    .json({ message: 'logged out' });
 };
 
 // refresh access token
@@ -144,6 +166,5 @@ exports.refreshUser = (req, res) => {
   const { user } = req;
   const body = { _id: user._id, email: user.email };
   const accessToken = jwt.sign({ user: body }, process.env.TOKEN_SECRET, { expiresIn: 120 });
-
   return res.json({ accessToken });
 };
