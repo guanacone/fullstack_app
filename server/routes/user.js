@@ -13,6 +13,7 @@ router.post('/', asyncHandler(userController.createUser));
 router.get('/activate_account', passportAuthActivationToken, asyncHandler(userController.activateAccount));
 router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser));
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
+router.put('/update_password/:id', passportAuthAccessToken, asyncHandler(userController.updatePassword));
 router.delete('/:id', passportAuthAccessToken, asyncHandler(userController.destroyUser));
 router.post('/login',asyncHandler(userController.loginUser));
 router.post('/logout', asyncHandler(userController.logoutUser));

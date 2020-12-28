@@ -6,6 +6,7 @@ const createError = require('http-errors');
 const { sendEmail } = require('../utils/sendEmail');
 const { extractTokenFromHeader, isTokenExpired } = require('../utils/tokenUtil');
 const { frontEndURL } = require('../utils/frontEndURL');
+const bcrypt = require('bcrypt');
 
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
@@ -97,7 +98,6 @@ exports.updateUser = async (req, res, next) => {
         firstName: req.body.firstName,
         familyName: req.body.familyName,
         email: req.body.email,
-        password: req.body.password,
       },
       { new: true },
     );
@@ -109,6 +109,28 @@ exports.updateUser = async (req, res, next) => {
     next(checkMongoError(err));
   }
 };
+
+// update password
+exports.updatePassword = async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id });
+  if(user === null) {
+    throw createError(404, 'User not found');
+  }
+  const oldPassword = req.body.oldPassword;
+  const validate = await user.isValidPassword(oldPassword);
+
+  if(!validate) {
+    throw createError(401, 'Old password does not match');
+  }
+
+  const hashedNewPassword = async (passwordToHash) => {
+    return await bcrypt.hash(passwordToHash, 10);
+  };
+
+  user.password = hashedNewPassword(req.body.hashedNewPassword);
+  return res.json({ user });
+};
+
 
 // destroy user
 exports.destroyUser = async (req, res) => {
