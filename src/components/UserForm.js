@@ -20,10 +20,12 @@ const UserForm = ({
       Email:
       <input type='email' required {...email.bind} />
     </label>
-    <label>
-      Password:
-      <input type='password' required minLength='6' {...password.bind} />
-    </label>
+    {password !== undefined
+      ? <label>
+        Password:
+        <input type='password' required minLength='6' {...password.bind} />
+      </label>
+      : null }
     <input type='submit' value='Submit' />
   </form>
 );
