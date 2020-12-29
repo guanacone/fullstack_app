@@ -43,5 +43,3 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 1337;
 
 app.listen(port, () => console.log(`listening on port ${port}`));
-
-console.log(`env: ${!!process.env.HEROKU_APP_NAME}`);
