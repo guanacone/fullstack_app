@@ -112,11 +112,8 @@ exports.updateUser = async (req, res, next) => {
 
 // update password
 exports.updatePassword = async (req, res) => {
-  const hashPassword = async (passwordToHash) => {
-    return await bcrypt.hash(passwordToHash, 10);
-  };
 
-  const newHashedPassword = await hashPassword(req.body.newPassword);
+  const newHashedPassword = await await bcrypt.hash(req.body.newPassword, 10);
 
   let user = await User.findById(req.params.id);
 
@@ -125,7 +122,6 @@ exports.updatePassword = async (req, res) => {
   }
 
   const validate = await bcrypt.compare(req.body.oldPassword, user.password);
-  console.log({ validate });
 
   if(!validate) {
     throw createError(401, 'Old password does not match');
