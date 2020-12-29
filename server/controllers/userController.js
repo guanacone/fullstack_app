@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const { sendEmail } = require('../utils/sendEmail');
 const { extractTokenFromHeader, isTokenExpired } = require('../utils/tokenUtil');
 const { frontEndURL } = require('../utils/frontEndURL');
-
+console.log({ frontEndURL });
 const checkMongoError = (ex) => {
   if (ex.name === 'ValidationError') {
     let errors = {};
