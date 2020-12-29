@@ -121,7 +121,7 @@ exports.updatePassword = async (req, res) => {
     throw createError(404, 'User not found');
   }
 
-  const validate = await bcrypt.compare(req.body.oldPassword, user.password);
+  const validate = await user.isValidPassword(req.body.oldPassword);
 
   if(!validate) {
     throw createError(401, 'Old password does not match');
