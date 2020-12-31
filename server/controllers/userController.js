@@ -138,6 +138,27 @@ exports.updatePassword = async (req, res) => {
   return res.json(user);
 };
 
+// send reset password link
+exports.sendResetPasswordLink = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    const body = { _id: user._id, email: user.email };
+    const resetToken = jwt.sign({ user: body }, process.env.RESET_TOKEN_SECRET, { expiresIn: '30min' });
+    const data = {
+      from: 'account_activation@rusca.dev',
+      to: user.email,
+      subject: 'Reset your password',
+      html: `<p>Please reset your password <a href=${frontEndURL}/user/reset_password?resetToken=${resetToken}>here</a>.`,
+    };
+    await sendEmail(data);
+  }
+  return res
+    .status(201)
+    .json({ message: 'If an user with that email exists, and email has been sent.' });
+};
+
+// rest password
+// exports.
 
 // destroy user
 exports.destroyUser = async (req, res) => {
