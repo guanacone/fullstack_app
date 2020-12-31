@@ -1,5 +1,10 @@
 {
     "name": "User Resource",
     "repository": "https://github.com/guanacone/fullstack_app",
-    "stack": "container"
+    "stack": "container",
+    "env": {
+        "HEROKU_APP_NAME": {
+            "required": true
+        }
+    }
 }
