@@ -11,8 +11,8 @@ const passportResetToken = passport.authenticate('reset token', { session: false
 
 router.get('/', passportAuthAccessToken, asyncHandler(userController.indexUser));
 router.post('/', asyncHandler(userController.createUser));
-router.get('/reset_password', asyncHandler(userController.sendResetPasswordLink));
-router.post('/reset_password', passportResetToken, asyncHandler(userController.resetPassword));
+router.post('/send_reset_password_link', asyncHandler(userController.sendResetPasswordLink));
+router.post('/reset_password/:id', passportResetToken, asyncHandler(userController.resetPassword));
 router.get('/activate_account', passportAuthActivationToken, asyncHandler(userController.activateAccount));
 router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser));
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
