@@ -113,7 +113,7 @@ exports.updateUser = async (req, res, next) => {
 // update password
 exports.updatePassword = async (req, res) => {
 
-  const newHashedPassword = await await bcrypt.hash(req.body.newPassword, 10);
+  const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
 
   let user = await User.findById(req.params.id);
 
@@ -154,11 +154,27 @@ exports.sendResetPasswordLink = async (req, res) => {
   }
   return res
     .status(201)
-    .json({ message: 'If an user with that email exists, and email has been sent.' });
+    .json({
+      message: 'If an user with that email exists, and email has been sent.',
+    });
 };
 
 // rest password
-// exports.
+exports.resetPassword = async (req, res) => {
+  const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+  console.log('user: ', req.user);
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      password: newHashedPassword,
+    },
+    { new: true },
+  );
+  if (user === null) {
+    throw createError(404, 'User not found');
+  }
+  return res.json(user);
+};
 
 // destroy user
 exports.destroyUser = async (req, res) => {
