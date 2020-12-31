@@ -148,7 +148,7 @@ exports.sendResetPasswordLink = async (req, res) => {
       from: 'account_activation@rusca.dev',
       to: user.email,
       subject: 'Reset your password',
-      html: `<p>Please reset your password <a href=${frontEndURL}/user/reset_password?resetToken=${resetToken}>here</a>.`,
+      html: `<p>Please reset your password <a href=${frontEndURL}/user/password_reset?resetToken=${resetToken}>here</a>.`,
     };
     await sendEmail(data);
   }
