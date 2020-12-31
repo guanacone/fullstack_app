@@ -10,6 +10,7 @@ const passportAuthActivationToken = passport.authenticate('activation token', { 
 
 router.get('/', passportAuthAccessToken, asyncHandler(userController.indexUser));
 router.post('/', asyncHandler(userController.createUser));
+router.get('/reset_password', asyncHandler(userController.sendResetPasswordLink));
 router.get('/activate_account', passportAuthActivationToken, asyncHandler(userController.activateAccount));
 router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser));
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
