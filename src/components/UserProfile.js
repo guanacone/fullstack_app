@@ -54,17 +54,11 @@ const User = ({ id }) => {
           <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
-          <Link
-            to={`/user/${id}/edit`}
-          >
-            Edit
-          </Link>
-          <DeleteButton
-            type='button'
-            onClick={() => deleteUser(`user/${id}`)}
-          >
-            Delete User
-          </DeleteButton>
+          <Link to={`/user/${id}/edit`}>Edit </Link>
+          <DeleteButton type='button' onClick={
+            () => deleteUser(`user/${id}`)}
+          >Delete User</DeleteButton>
+          <Link to={`user/${id}/password_edit`}> Edit Password</Link>
         </>
       );
     }
