@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, navigate } from 'gatsby';
 import axios from 'axios';
 import styled from 'styled-components';
+import jwt from 'jsonwebtoken';
 import useFetchAPI from '../hooks/useFetchAPI';
 import { isLoggedIn, getUser } from '../services/auth';
 
@@ -40,6 +41,7 @@ const User = ({ id }) => {
   }
 
   const user = getUser();
+  const { user: { _id: loggedInUserID } } = jwt.decode(user.token);
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}`, token: user.token });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -54,11 +56,16 @@ const User = ({ id }) => {
           <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
-          <Link to={`/user/${id}/edit`}>Edit </Link>
-          <DeleteButton type='button' onClick={
-            () => deleteUser(`user/${id}`)}
-          >Delete User</DeleteButton>
-          <Link to={`user/${id}/password_edit`}> Edit Password</Link>
+          { loggedInUserID === id
+            ? <>
+              <Link to={`/user/${id}/edit`}>Edit </Link>
+              <DeleteButton type='button' onClick={
+                () => deleteUser(`user/${id}`)}
+              >Delete User</DeleteButton>
+              <Link to={`user/${id}/password_edit`}> Edit Password</Link>
+            </>
+            : null
+          }
         </>
       );
     }
