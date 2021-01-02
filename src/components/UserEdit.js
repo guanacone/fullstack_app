@@ -37,17 +37,26 @@ const UserNew = ({ location }) => {
     if (dataContent) {
       return (
         <UserForm
-          handleSubmit = {(evt) => handleSubmit({
-            evt,
-            method: 'put',
-            endpoint: `user/${userID}`,
-            data: {
-              firstName: firstName.value,
-              familyName: familyName.value,
-              email: email.value,
-            },
-            destination: `/user/${userID}`,
-          })}
+          handleSubmit = {
+            async (evt) => {
+              evt.preventDefault();
+              try {
+                await handleSubmit({
+                  method: 'put',
+                  endpoint: `user/${userID}`,
+                  data: {
+                    firstName: firstName.value,
+                    familyName: familyName.value,
+                    email: email.value,
+                  },
+                  token: user.token,
+                });
+                navigate(`/user/${userID}`);
+              } catch (err) {
+                const { response } = err;
+                alert(response.data.message);
+              }
+            }}
           firstName={firstName}
           familyName={familyName}
           email={email} />
