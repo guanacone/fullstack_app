@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate } from '@reach/router';
+import { navigate } from 'gatsby';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import handleSubmit from '../utils/handleSubmit';
