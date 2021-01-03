@@ -26,7 +26,7 @@ const checkMongoError = (ex) => {
 
 // index of all users
 exports.indexUser = async (req, res) => {
-  const users = await User.find({}).exec();
+  const users = await User.find({ isActivated: true }).exec();
   return res.json(users);
 };
 
