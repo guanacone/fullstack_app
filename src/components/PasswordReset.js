@@ -6,8 +6,7 @@ import useInput from '../hooks/useInput';
 import handleSubmit from '../utils/handleSubmit';
 
 const PasswordReset = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [resetToken, setResetToken] = useQueryParam('resetToken', StringParam);
+  const [resetToken] = useQueryParam('resetToken', StringParam);
   const { user: { _id } } = jwt.decode(resetToken);
   const newPassword = useInput('');
   const confirmNewPassword = useInput('');
