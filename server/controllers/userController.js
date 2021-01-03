@@ -113,7 +113,7 @@ exports.updateUser = async (req, res, next) => {
 // update password
 exports.updatePassword = async (req, res) => {
 
-  const newHashedPassword = await await bcrypt.hash(req.body.newPassword, 10);
+  const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
 
   let user = await User.findById(req.params.id);
 
@@ -138,6 +138,42 @@ exports.updatePassword = async (req, res) => {
   return res.json(user);
 };
 
+// send reset password link
+exports.sendResetPasswordLink = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    const body = { _id: user._id, email: user.email };
+    const resetToken = jwt.sign({ user: body }, process.env.RESET_TOKEN_SECRET, { expiresIn: '30min' });
+    const data = {
+      from: 'account_activation@rusca.dev',
+      to: user.email,
+      subject: 'Reset your password',
+      html: `<p>Please reset your password <a href=${frontEndURL}/user/password_reset?resetToken=${resetToken}>here</a>.`,
+    };
+    await sendEmail(data);
+  }
+  return res
+    .status(201)
+    .json({
+      message: 'If an user with that email exists, and email has been sent.',
+    });
+};
+
+// rest password
+exports.resetPassword = async (req, res) => {
+  const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      password: newHashedPassword,
+    },
+    { new: true },
+  );
+  if (user === null) {
+    throw createError(404, 'User not found');
+  }
+  return res.json(user);
+};
 
 // destroy user
 exports.destroyUser = async (req, res) => {

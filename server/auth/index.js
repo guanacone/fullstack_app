@@ -96,3 +96,22 @@ passport.use(
     },
   ),
 );
+
+passport.use(
+  'reset token',
+  new JWTstrategy(
+    {
+      secretOrKey: process.env.RESET_TOKEN_SECRET,
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: true,
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        console.log(error);
+        done(error);
+      }
+    },
+  ),
+);

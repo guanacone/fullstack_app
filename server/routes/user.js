@@ -7,9 +7,12 @@ const asyncHandler = require('express-async-handler');
 const passportAuthAccessToken = passport.authenticate('access token', { session: false });
 const passportAuthRefreshToken = passport.authenticate('refresh token', { session: false });
 const passportAuthActivationToken = passport.authenticate('activation token', { session: false });
+const passportResetToken = passport.authenticate('reset token', { session: false });
 
 router.get('/', passportAuthAccessToken, asyncHandler(userController.indexUser));
 router.post('/', asyncHandler(userController.createUser));
+router.post('/send_reset_password_link', asyncHandler(userController.sendResetPasswordLink));
+router.post('/reset_password/:id', passportResetToken, asyncHandler(userController.resetPassword));
 router.get('/activate_account', passportAuthActivationToken, asyncHandler(userController.activateAccount));
 router.get('/:id', passportAuthAccessToken, asyncHandler(userController.showUser));
 router.put('/:id', passportAuthAccessToken, asyncHandler(userController.updateUser));
