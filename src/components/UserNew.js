@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
 import handleSubmit from '../utils/handleSubmit';
@@ -11,18 +12,26 @@ const UserNew = () => {
 
   return (
     <UserForm
-      handleSubmit = {(evt) => handleSubmit({
-        evt,
-        method: 'post',
-        endpoint: '/user',
-        data: {
-          firstName: firstName.value,
-          familyName: familyName.value,
-          email: email.value,
-          password: password.value,
-        },
-        destination: '/activateAccount',
-      })}
+      handleSubmit = {
+        async (evt) => {
+          evt.preventDefault();
+          try {
+            await handleSubmit({
+              method: 'post',
+              endpoint: '/user',
+              data: {
+                firstName: firstName.value,
+                familyName: familyName.value,
+                email: email.value,
+                password: password.value,
+              },
+            });
+            navigate('/login');
+          } catch (err) {
+            const { response } = err;
+            alert(response.data.message);
+          }
+        }}
       firstName={firstName}
       familyName={familyName}
       email={email}
