@@ -162,7 +162,6 @@ exports.sendResetPasswordLink = async (req, res) => {
 // rest password
 exports.resetPassword = async (req, res) => {
   const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
-  console.log('user: ', req.user);
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
