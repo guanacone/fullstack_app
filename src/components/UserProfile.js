@@ -42,6 +42,7 @@ const User = ({ id }) => {
 
   const user = getUser();
   const { user: loggedInUser } = jwt.decode(user.token);
+  console.log(loggedInUser.roles);
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}`, token: user.token });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
@@ -56,14 +57,14 @@ const User = ({ id }) => {
           <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
-          { loggedInUser._id === id || loggedInUser.isAdmin
+          { loggedInUser._id === id || loggedInUser.roles.find((role) => role === 'isAdmin')
             ? <>
               <Link to={`/user/${id}/edit`}>Edit Details</Link><br></br>
               <Link to={`user/${id}/password_edit`}>Edit Password</Link><br></br>
             </>
             : null
           }
-          {loggedInUser.isAdmin
+          {loggedInUser.roles && loggedInUser.roles.find((role) => role === 'isAdmin')
             ? <>
               <DeleteButton type='button' onClick={
                 () => deleteUser(`user/${id}`)}
