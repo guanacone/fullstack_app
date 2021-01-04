@@ -1,8 +1,8 @@
 import React from 'react';
 import { navigate } from 'gatsby';
+import Axios from 'axios';
 import UserForm from './UserForm';
 import useInput from '../hooks/useInput';
-import handleSubmit from '../utils/handleSubmit';
 
 const UserNew = () => {
   const firstName = useInput('');
@@ -16,9 +16,9 @@ const UserNew = () => {
         async (evt) => {
           evt.preventDefault();
           try {
-            await handleSubmit({
+            await Axios({
               method: 'post',
-              endpoint: '/user',
+              url: '/user',
               data: {
                 firstName: firstName.value,
                 familyName: familyName.value,
