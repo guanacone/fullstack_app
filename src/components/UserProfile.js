@@ -42,7 +42,6 @@ const User = ({ id }) => {
 
   const user = getUser();
   const { user: loggedInUser } = jwt.decode(user.token);
-  console.log(loggedInUser.roles);
   const { data, error } = useFetchAPI({ endpoint: `/user/${id}`, token: user.token });
   const getContent = (dataContent, errorContent) => {
     if (errorContent) {
