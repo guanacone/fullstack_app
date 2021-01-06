@@ -56,14 +56,14 @@ const User = ({ id }) => {
           <p>User ID: {id}</p>
           <p>First Name: {dataContent.firstName}</p>
           <p>Family Name: {dataContent.familyName}</p>
-          { loggedInUser._id === id || loggedInUser.roles.find((role) => role === 'isAdmin')
+          { loggedInUser._id === id || loggedInUser.roles.find((role) => role === 'admin')
             ? <>
               <Link to={`/user/${id}/edit`}>Edit Details</Link><br></br>
               <Link to={`user/${id}/password_edit`}>Edit Password</Link><br></br>
             </>
             : null
           }
-          {loggedInUser.roles && loggedInUser.roles.find((role) => role === 'isAdmin')
+          {loggedInUser.roles && loggedInUser.roles.find((role) => role === 'admin')
             ? <>
               <DeleteButton type='button' onClick={
                 () => deleteUser(`user/${id}`)}
