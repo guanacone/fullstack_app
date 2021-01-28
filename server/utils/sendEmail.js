@@ -1,6 +1,6 @@
 const mailgun = require('mailgun-js');
-const mgApiKey = '***REMOVED***';
-const domain = 'sandboxfc5e54316a7244c1b1b13fe82614124c.mailgun.org';
+const mgApiKey = process.env.CONFIRMATION_TOKEN_SECRET;
+const domain = process.env.MAILGUN_DOMAIN;
 const mg = mailgun({ apiKey: mgApiKey, domain });
 
 exports.sendEmail = (data) => {
